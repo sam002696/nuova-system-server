@@ -32,11 +32,11 @@ const PropertySchema = new mongoose.Schema(
       addressline1: {
         type: String,
       },
-      addressline2: {
+      propertyName: {
         type: String,
       },
       zipcode: {
-        type: Number,
+        type: String,
       },
     },
     propertyDetails: {
