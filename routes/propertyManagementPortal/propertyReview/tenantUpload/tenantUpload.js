@@ -13,11 +13,11 @@ router.post("/upload/:propertyid", async (req, res, next) => {
       await property.findByIdAndUpdate(propertyId, {
         $push: { tenantDetails: savedtenantUploads._id },
       });
-      await property.findByIdAndUpdate(propertyId, {
-        $push: { tenantName: savedtenantUploads.username },
-      });
+      // await property.findByIdAndUpdate(propertyId, {
+      //   $push: { tenantName: savedtenantUploads.username },
+      // });
     } catch (err) {
-      res.status(403).json(err);
+      next(err);
     }
     res.status(200).json(savedtenantUploads);
   } catch (err) {

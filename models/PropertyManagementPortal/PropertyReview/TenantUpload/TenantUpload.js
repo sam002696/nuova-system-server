@@ -2,23 +2,106 @@ const mongoose = require("mongoose");
 
 const TenantUploadSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
+    tenantPersonalInfo: {
+      fullName: {
+        type: String,
+      },
+      email: {
+        type: String,
+      },
+      phoneNo: {
+        type: String,
+      },
+      totalOccupants: {
+        type: Number,
+      },
+      pets: {
+        type: String,
+      },
+      petDesc: {
+        type: String,
+      },
+      smokes: {
+        type: String,
+      },
+      lawsuit: {
+        type: String,
+      },
+      felony: {
+        type: String,
+      },
+      lawsuitDesc: {
+        type: String,
+      },
+      currentIncome: {
+        type: String,
+      },
+      incomeAssistance: {
+        type: String,
+      },
+      creditScore: {
+        type: String,
+      },
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
+
+    tenantResidency: {
+      address: {
+        type: String,
+      },
+      unitNumber: {
+        type: Number,
+      },
+      city: {
+        type: String,
+      },
+      country: {
+        type: String,
+      },
+      depositAmount: {
+        type: Number,
+      },
+      state: {
+        type: String,
+      },
+      zipCode: {
+        type: String,
+      },
+      monthlyRent: {
+        type: Number,
+      },
+      leaseStartDate: {
+        type: Date,
+      },
+      leaseEndDate: {
+        type: Date,
+      },
+      postCode: {
+        type: String,
+      },
+      propertyName: {
+        type: String,
+      },
+      tenancyDueDate: {
+        type: String,
+      },
+      unitNumber: {
+        type: String,
+      },
     },
-    address: {
-      type: String,
-      required: true,
-    },
-    documents: {
-      type: String,
-      required: true,
+
+    guarantorInfo: {
+      currentIncome: {
+        type: String,
+      },
+      email: {
+        type: String,
+      },
+      fullName: {
+        type: String,
+      },
+      phoneNo: {
+        type: String,
+      },
     },
   },
   { timestamps: true }

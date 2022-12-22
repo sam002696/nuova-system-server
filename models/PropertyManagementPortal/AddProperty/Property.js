@@ -176,11 +176,11 @@ const PropertySchema = new mongoose.Schema(
 
     tenantDetails: {
       type: [String],
-      ref: "uploadTenant",
+      ref: "TenantUpload",
     },
-    tenantName: {
+    certificatesDocuments: {
       type: [String],
-      ref: "uploadTenant",
+      ref: "CertificateUpload",
     },
   },
   { timestamps: true }
