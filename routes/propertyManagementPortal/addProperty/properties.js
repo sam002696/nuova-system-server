@@ -21,7 +21,7 @@ router.get("/", async (req, res, next) => {
     const properties = await Property.find({})
       .populate("tenantDetails")
       .populate("certificatesDocuments");
-
+      
     res.status(200).json(properties);
   } catch (err) {
     next(err);
