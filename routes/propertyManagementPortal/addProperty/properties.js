@@ -18,7 +18,7 @@ router.post("/", async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const properties = await Property.find({});
+    const properties = await Property.find({}).populate("tenantDetails");
     res.status(200).json(properties);
   } catch (err) {
     next(err);
