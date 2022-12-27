@@ -18,7 +18,10 @@ router.post("/", async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const properties = await Property.find({}).populate("tenantDetails");
+    const properties = await Property.find({})
+      .populate("tenantDetails")
+      .populate("certificatesDocuments");
+      
     res.status(200).json(properties);
   } catch (err) {
     next(err);
@@ -29,7 +32,9 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
   try {
-    const property = await Property.findById(req.params.id);
+    const property = await Property.findById(req.params.id)
+      .populate("tenantDetails")
+      .populate("certificatesDocuments");
     res.status(200).json(property);
   } catch (err) {
     next(err);
@@ -57,15 +62,36 @@ router.get("/tenantdetail/:id", async (req, res, next) => {
   }
 });
 
+//get a single property with uploaded certificates
+
+router.get("/certificates/:id", async (req, res, next) => {
+  try {
+    // const user = await User.findById(req.params.userid)
+    const property = await Property.findById(req.params.id).populate(
+      "certificatesDocuments"
+    );
+
+    // const list = await Promise.all(
+    //     property.tenantDetails.map((tenant) => {
+    //         return tenant
+    //     })
+    // );
+
+    res.status(200).json(property);
+  } catch (err) {
+    next(err);
+  }
+});
+
 //find a single property based on user's name/email
 
 router.get("/", async (req, res, next) => {
   try {
     const name = req.query.name;
     if (name) {
-      const property = await Property.findOne({ tenantName: name }).populate(
-        "tenantDetails"
-      );
+      const property = await Property.findOne({ tenantName: name })
+        .populate("tenantDetails")
+        .populate("certificatesDocuments");
       res.status(200).json(property);
     }
   } catch (err) {

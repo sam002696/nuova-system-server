@@ -18,7 +18,8 @@ router.post("/upload/:propertyid", async (req, res, next) => {
       //   $push: { tenantName: savedtenantUploads.username },
       // });
     } catch (err) {
-      return next(createError(403, "wrong property id"));
+      // return next(createError(403, "wrong property id"));
+      next(err);
     }
     res.status(200).json(savedtenantUploads);
   } catch (err) {

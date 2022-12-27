@@ -18,7 +18,7 @@ router.post("/", async (req, res, next) => {
 
 // create tasks for all tenants
 
-router.post("/alltenants", async (req, res, next) => {
+router.post("/all", async (req, res, next) => {
   const newTask = new Tasks(req.body);
   try {
     const savedTask = await newTask.save();
@@ -34,17 +34,32 @@ router.post("/alltenants", async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   const useremail = req.query.useremail;
   const sendtask = req.query.sendTask;
+  const taskfor = req.query.taskFor;
   try {
-    if (useremail || sendtask) {
+    if (taskfor === "Tenants" && (useremail || sendtask)) {
       const task = await Tasks.find({
-        $or: [{ assignedUseremail: useremail }, { sendTask: sendtask }],
+        $or: [
+          { assignedUseremail: useremail, taskFor: taskfor },
+          { taskFor: taskfor, sendTask: sendtask },
+        ],
+      })
+        .populate("uploadSingleTask")
+        .populate("uploadAllTasks");
+
+      res.status(200).json(task);
+    } else if (taskfor === "Landlords" && (useremail || sendtask)) {
+      const task = await Tasks.find({
+        $or: [
+          { assignedUseremail: useremail, taskFor: taskfor },
+          { taskFor: taskfor, sendTask: sendtask },
+        ],
       })
         .populate("uploadSingleTask")
         .populate("uploadAllTasks");
 
       res.status(200).json(task);
     } else {
-      const task = await Tasks.find()
+      const task = await Tasks.find({ taskFor: taskfor })
         .populate("uploadSingleTask")
         .populate("uploadAllTasks");
 
