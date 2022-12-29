@@ -50,6 +50,7 @@ router.put("/:reportid", async (req, res, next) => {
 
 router.put("/singlecontractorjob/:reportid", async (req, res, next) => {
   const reportid = req.params.reportid;
+
   try {
     const updatedContractorJob = await ContractorJob.findByIdAndUpdate(
       reportid,

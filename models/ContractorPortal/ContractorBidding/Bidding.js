@@ -10,6 +10,17 @@ const BiddingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    contractorPhone: {
+      type: String,
+      required: true,
+    },
+    contractorChatUserId: {
+      type: String,
+      required: true,
+    },
+    contractorOccupation: {
+      type: String,
+    },
     desc: {
       type: String,
       required: true,

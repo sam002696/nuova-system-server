@@ -17,6 +17,12 @@ const ContractorJobSchema = new mongoose.Schema(
     timeline: {
       type: String,
     },
+    issueImage: {
+      type: String,
+    },
+    perHourIncome: {
+      type: String,
+    },
     contractorBiddingEmail: {
       type: String,
       ref: "Bidding",
