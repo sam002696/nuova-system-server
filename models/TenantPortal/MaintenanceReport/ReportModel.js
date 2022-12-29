@@ -2,13 +2,37 @@ const mongoose = require("mongoose");
 
 const ReportModelSchema = new mongoose.Schema(
   {
-    issueName: {
+    username: {
+      type: String,
+    },
+    chatusername: {
+      type: String,
+    },
+    phoneNo: {
       type: String,
     },
     tenantAddress: {
       type: String,
     },
     email: {
+      type: String,
+    },
+    propertyName: {
+      type: String,
+    },
+    landlordName: {
+      type: String,
+    },
+    unitName: {
+      type: String,
+    },
+    issueName: {
+      type: String,
+    },
+    issueDesc: {
+      type: String,
+    },
+    issueImage: {
       type: String,
     },
     contracBiddingInfo: {
