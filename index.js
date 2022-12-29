@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
-
+const port = process.env.PORT || 5500;
 //require routes
 
 const authRoute = require("./routes/Authentication/auth");
@@ -65,7 +65,7 @@ app.use((err, req, res, next) => {
 
 app.use("/", (req, res) => res.send("Hello World!"));
 
-app.listen(5500, () => {
+app.listen(port, () => {
   connect();
   console.log("Connected to Server");
 });
