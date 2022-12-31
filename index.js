@@ -16,6 +16,7 @@ const taskRoute = require("./routes/propertyManagementPortal/tasks/task");
 const taskDocumentsRoute = require("./routes/propertyManagementPortal/tasks/taskDocuments");
 const prospectsRoute = require("./routes/adminPortal/prospects/prospects");
 const certficatesAndDocumentsRoute = require("./routes/propertyManagementPortal/propertyReview/certificates&Documets/certificateUpload");
+const calenderEventsRoute = require("./routes/propertyManagementPortal/calender/addEvents");
 
 // express app initialization
 const app = express();
@@ -48,6 +49,7 @@ app.use("/api/properties", propertyRoute);
 app.use("/api/uploadTenants", tenantUploadRoute);
 app.use("/api/certificatesDocuments", certficatesAndDocumentsRoute);
 app.use("/api/reports", reportRoute);
+app.use("/api/calenderEvents", calenderEventsRoute);
 app.use("/api/contractorJobs", contractorJobRoute);
 app.use("/api/biddings", biddingRoute);
 app.use("/api/taskDocuments", taskDocumentsRoute);
