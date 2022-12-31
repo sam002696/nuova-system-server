@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Property = require("../../../models/PropertyManagementPortal/AddProperty/Property");
+const TenantUpload = require("../../../models/PropertyManagementPortal/PropertyReview/TenantUpload/TenantUpload");
 
 //create a property
 
@@ -21,7 +22,7 @@ router.get("/", async (req, res, next) => {
     const properties = await Property.find({})
       .populate("tenantDetails")
       .populate("certificatesDocuments");
-      
+
     res.status(200).json(properties);
   } catch (err) {
     next(err);
@@ -83,19 +84,28 @@ router.get("/certificates/:id", async (req, res, next) => {
   }
 });
 
-//find a single property based on user's name/email
+//find a single property based on user's email
 
-router.get("/", async (req, res, next) => {
-  try {
-    const name = req.query.name;
-    if (name) {
-      const property = await Property.findOne({ tenantName: name })
-        .populate("tenantDetails")
-        .populate("certificatesDocuments");
-      res.status(200).json(property);
+router.get("/tenantproperty/tenant", async (req, res, next) => {
+  const email = req.query.email;
+  console.log(email);
+  if (email) {
+    try {
+      const tenant = await TenantUpload.findOne({
+        "tenantPersonalInfo.email": email,
+      });
+      console.log(tenant);
+      try {
+        const property = await Property.findOne({ tenantDetails: tenant._id })
+          .populate("tenantDetails")
+          .populate("certificatesDocuments");
+        res.status(200).json(property);
+      } catch (err) {
+        next(err);
+      }
+    } catch (err) {
+      next(err);
     }
-  } catch (err) {
-    next(err);
   }
 });
 
