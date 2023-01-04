@@ -14,9 +14,9 @@ const contractorJobRoute = require("./routes/contractorPortal/contractorJob/cont
 const biddingRoute = require("./routes/contractorPortal/contractorBidding/bidding");
 const taskRoute = require("./routes/propertyManagementPortal/tasks/task");
 const taskDocumentsRoute = require("./routes/propertyManagementPortal/tasks/taskDocuments");
-const prospectsRoute = require("./routes/adminPortal/prospects/prospects");
 const certficatesAndDocumentsRoute = require("./routes/propertyManagementPortal/propertyReview/certificates&Documets/certificateUpload");
 const calenderEventsRoute = require("./routes/propertyManagementPortal/calender/addEvents");
+const prospectsRoute = require("./routes/propertyManagementPortal/prospect/prospect");
 
 // express app initialization
 const app = express();
@@ -44,11 +44,11 @@ mongoose.set("strictQuery", false);
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/tasks", taskRoute);
-app.use("/api/prospects", prospectsRoute);
 app.use("/api/properties", propertyRoute);
 app.use("/api/uploadTenants", tenantUploadRoute);
 app.use("/api/certificatesDocuments", certficatesAndDocumentsRoute);
 app.use("/api/reports", reportRoute);
+app.use("/api/prospects", prospectsRoute);
 app.use("/api/calenderEvents", calenderEventsRoute);
 app.use("/api/contractorJobs", contractorJobRoute);
 app.use("/api/biddings", biddingRoute);

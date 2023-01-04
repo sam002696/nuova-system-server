@@ -2,26 +2,28 @@ const mongoose = require("mongoose");
 
 const ProspectsSchema = new mongoose.Schema(
   {
-    propertyName: {
-      type: String,
-    },
-    propertyAddress: {
-      type: String,
-    },
-    propertyRent: {
-      type: String,
-    },
-    beds: {
-      type: Number,
-    },
-    baths: {
-      type: Number,
-    },
-    propertyAvailableDate: {
-      type: Date,
-    },
-    propertyPic: {
-      type: String,
+    propertyDetails: {
+      availableDate: {
+        type: Date,
+      },
+      value: {
+        type: String,
+      },
+      addressline1: {
+        type: String,
+      },
+      city: {
+        type: String,
+      },
+      zipcode: {
+        type: String,
+      },
+      beds: {
+        type: Number,
+      },
+      baths: {
+        type: Number,
+      },
     },
     book: {
       preferredDay: {
@@ -38,20 +40,16 @@ const ProspectsSchema = new mongoose.Schema(
       emailAddress: {
         type: String,
       },
-      firstName: {
-        type: String,
-      },
-      lastName: {
+      fullName: {
         type: String,
       },
       mobile: {
-        type: Number,
+        type: String,
       },
       moveindate: {
         type: Date,
       },
     },
-
     extraInfo: {
       adults: {
         type: Number,
@@ -93,7 +91,6 @@ const ProspectsSchema = new mongoose.Schema(
         type: String,
       },
     },
-
     preferences: {
       maxBeds: {
         type: Number,
@@ -112,4 +109,4 @@ const ProspectsSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Prospects", ProspectsSchema);
+module.exports = mongoose.model("Prospect", ProspectsSchema);

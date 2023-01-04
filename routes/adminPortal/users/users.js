@@ -81,6 +81,27 @@ router.get("/:id", async (req, res, next) => {
 //get all users
 
 router.get("/", async (req, res, next) => {
+  const userrole = req.query.role;
+  if (userrole) {
+    try {
+      const users = await User.find({ role: userrole });
+      res.status(200).json(users);
+    } catch (err) {
+      next(err);
+    }
+  } else {
+    try {
+      const users = await User.find({});
+      res.status(200).json(users);
+    } catch (err) {
+      next(err);
+    }
+  }
+});
+
+// get users based on their roles
+
+router.get("/", async (req, res, next) => {
   try {
     const users = await User.find({});
     res.status(200).json(users);

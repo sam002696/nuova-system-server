@@ -55,7 +55,7 @@ const PropertySchema = new mongoose.Schema(
       bathroom: {
         type: Number,
       },
-      availibilityDate: {
+      availabilityDate: {
         type: Date,
       },
       propertyFurnished: {
