@@ -308,7 +308,7 @@ router.put("/completejob/:reportid/:biddingid", async (req, res, next) => {
     await ContractorJob.findByIdAndUpdate(
       reportid,
       {
-        $pull: { ContractorJobs: biddingid },
+        $pull: { currentJobs: biddingid },
       },
       {
         new: true,
