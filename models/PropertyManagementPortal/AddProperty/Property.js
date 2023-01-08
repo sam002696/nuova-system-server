@@ -186,6 +186,10 @@ const PropertySchema = new mongoose.Schema(
       type: [String],
       ref: "Inventory",
     },
+    inspectionReport: {
+      type: [String],
+      ref: "InspectionReport",
+    },
   },
   { timestamps: true }
 );

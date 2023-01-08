@@ -18,6 +18,7 @@ const certficatesAndDocumentsRoute = require("./routes/propertyManagementPortal/
 const calenderEventsRoute = require("./routes/propertyManagementPortal/calender/addEvents");
 const prospectsRoute = require("./routes/propertyManagementPortal/prospect/prospect");
 const inventoryRoute = require("./routes/propertyManagementPortal/propertyReview/inventory/inventory");
+const inspectionReportRoute = require("./routes/propertyManagementPortal/propertyReview/inspectionReport/inspectionReport");
 
 // express app initialization
 const app = express();
@@ -51,6 +52,7 @@ app.use("/api/certificatesDocuments", certficatesAndDocumentsRoute);
 app.use("/api/reports", reportRoute);
 app.use("/api/prospects", prospectsRoute);
 app.use("/api/inventory", inventoryRoute);
+app.use("/api/inspectionReport", inspectionReportRoute);
 app.use("/api/calenderEvents", calenderEventsRoute);
 app.use("/api/contractorJobs", contractorJobRoute);
 app.use("/api/biddings", biddingRoute);
