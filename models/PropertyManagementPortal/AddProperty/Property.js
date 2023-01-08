@@ -182,6 +182,10 @@ const PropertySchema = new mongoose.Schema(
       type: [String],
       ref: "CertificateUpload",
     },
+    inventory: {
+      type: [String],
+      ref: "Inventory",
+    },
   },
   { timestamps: true }
 );

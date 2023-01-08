@@ -21,7 +21,8 @@ router.get("/", async (req, res, next) => {
   try {
     const properties = await Property.find({})
       .populate("tenantDetails")
-      .populate("certificatesDocuments");
+      .populate("certificatesDocuments")
+      .populate("inventory");
 
     res.status(200).json(properties);
   } catch (err) {
