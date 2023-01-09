@@ -46,6 +46,9 @@ const PropertySchema = new mongoose.Schema(
       propertyEstimatedValue: {
         type: Number,
       },
+      marketRentPCM: {
+        type: Number,
+      },
       livingArea: {
         type: Number,
       },

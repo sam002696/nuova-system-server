@@ -22,7 +22,8 @@ router.get("/", async (req, res, next) => {
     const properties = await Property.find({})
       .populate("tenantDetails")
       .populate("certificatesDocuments")
-      .populate("inventory");
+      .populate("inventory")
+      .populate("inspectionReport");
 
     res.status(200).json(properties);
   } catch (err) {
