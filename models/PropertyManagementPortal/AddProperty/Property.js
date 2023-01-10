@@ -186,11 +186,11 @@ const PropertySchema = new mongoose.Schema(
       ref: "CertificateUpload",
     },
     inventory: {
-      type: [String],
+      type: String,
       ref: "Inventory",
     },
     inspectionReport: {
-      type: [String],
+      type: String,
       ref: "InspectionReport",
     },
   },

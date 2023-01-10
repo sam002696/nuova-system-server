@@ -111,6 +111,24 @@ router.get("/tenantproperty/tenant", async (req, res, next) => {
   }
 });
 
+//find all properties based on lanlord's email
+
+router.get("/landlordproperty/landlord", async (req, res, next) => {
+  const email = req.query.email;
+  console.log(email);
+  if (email) {
+    try {
+      const landlordProperty = await Property.find({
+        "landlordInfo.landlordEmail": email,
+      });
+      console.log(landlordProperty);
+      res.status(200).json(landlordProperty);
+    } catch (err) {
+      next(err);
+    }
+  }
+});
+
 //update a single property
 router.put("/:id", async (req, res, next) => {
   try {

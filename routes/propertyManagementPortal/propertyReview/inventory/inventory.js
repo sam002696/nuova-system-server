@@ -13,7 +13,7 @@ router.post("/upload/:propertyid", async (req, res, next) => {
     const savedInventory = await newInventory.save();
     try {
       await Property.findByIdAndUpdate(propertyId, {
-        $push: { inventory: savedInventory._id },
+        $set: { inventory: savedInventory._id },
       });
     } catch (err) {
       next(err);
