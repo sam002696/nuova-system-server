@@ -37,7 +37,9 @@ router.get("/:id", async (req, res, next) => {
   try {
     const property = await Property.findById(req.params.id)
       .populate("tenantDetails")
-      .populate("certificatesDocuments");
+      .populate("certificatesDocuments")
+      .populate("inventory")
+      .populate("inspectionReport");
     res.status(200).json(property);
   } catch (err) {
     next(err);
@@ -121,7 +123,7 @@ router.get("/landlordproperty/landlord", async (req, res, next) => {
       const landlordProperty = await Property.find({
         "landlordInfo.landlordEmail": email,
       });
-      console.log(landlordProperty);
+
       res.status(200).json(landlordProperty);
     } catch (err) {
       next(err);
