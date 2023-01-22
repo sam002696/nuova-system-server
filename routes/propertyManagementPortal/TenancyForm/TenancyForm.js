@@ -15,16 +15,16 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-//get all prospects
+//get all tenancy forms
 
-// router.get("/", async (req, res, next) => {
-//   try {
-//     const prospects = await Prospects.find({});
+router.get("/", async (req, res, next) => {
+  try {
+    const tenancyForm = await TenancyForm.find({});
 
-//     res.status(200).json(prospects);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+    res.status(200).json(tenancyForm);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;
