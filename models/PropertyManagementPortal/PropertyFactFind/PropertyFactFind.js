@@ -128,7 +128,7 @@ const PropertyFactFindSchema = new mongoose.Schema(
         propertyFactored: {
           type: String,
         },
-        factoringDocument: {
+        factoringCompany: {
           type: String,
         },
         emailAddress: {
@@ -273,7 +273,7 @@ const PropertyFactFindSchema = new mongoose.Schema(
 
     ownershipDetails: {
       propertyOwnership: {
-        type: String,
+        type: [String],
       },
       ownerOne: {
         title: {
