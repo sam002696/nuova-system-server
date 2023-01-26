@@ -415,6 +415,223 @@ const PropertyFactFindSchema = new mongoose.Schema(
         type: [String],
       },
     },
+
+    propertyMaintenance: {
+      approvedRepairLimit: {
+        type: String,
+      },
+
+      maintenanceContactDetails: {
+        fullName: {
+          type: String,
+        },
+        relationshipOwner: {
+          type: String,
+        },
+        telephone: {
+          type: String,
+        },
+        emailAddress: {
+          type: String,
+        },
+      },
+
+      preferredcontractors: {
+        contractorOne: {
+          contractorName: {
+            type: String,
+          },
+          contractorTrade: {
+            type: String,
+          },
+          contractorPhone: {
+            type: String,
+          },
+          contractorEmail: {
+            type: String,
+          },
+        },
+        contractorTwo: {
+          contractorName: {
+            type: String,
+          },
+          contractorTrade: {
+            type: String,
+          },
+          contractorPhone: {
+            type: String,
+          },
+          contractorEmail: {
+            type: String,
+          },
+        },
+        contractorThree: {
+          contractorName: {
+            type: String,
+          },
+          contractorTrade: {
+            type: String,
+          },
+          contractorPhone: {
+            type: String,
+          },
+          contractorEmail: {
+            type: String,
+          },
+        },
+        contractorFour: {
+          contractorName: {
+            type: String,
+          },
+          contractorTrade: {
+            type: String,
+          },
+          contractorPhone: {
+            type: String,
+          },
+          contractorEmail: {
+            type: String,
+          },
+        },
+      },
+
+      serviceContracts: {
+        serviceAgreement: {
+          type: String,
+        },
+        provider: {
+          type: String,
+        },
+        typeOfCover: {
+          type: String,
+        },
+        accountNumber: {
+          type: String,
+        },
+        contactTelSuppliedBy: {
+          type: String,
+        },
+        annualGasSafetyInspection: {
+          type: String,
+        },
+      },
+
+      safetyTestsEssentialCertificates: {
+        gsc: {
+          type: [String],
+        },
+        epc: {
+          type: [String],
+        },
+        lra: {
+          type: [String],
+        },
+        eicr: {
+          type: [String],
+        },
+        pat: {
+          type: [String],
+        },
+        smokeAndHeatDetector: {
+          type: String,
+        },
+      },
+
+      warranties: [
+        {
+          item: {
+            type: String,
+          },
+          manufacturer: {
+            type: String,
+          },
+          model: {
+            type: String,
+          },
+          warrantyExpiryDate: {
+            type: Date,
+          },
+          provider: {
+            type: String,
+          },
+          contactDetails: {
+            type: String,
+          },
+          refNumber: {
+            type: String,
+          },
+        },
+      ],
+
+      additionalInformation: {
+        type: String,
+      },
+    },
+
+    marketResearch: {
+      marketResearchOption: {
+        type: String,
+      },
+    },
+
+    engagementOfNuova: {
+      ownerOne: {
+        firstName: {
+          type: String,
+        },
+        surname: {
+          type: String,
+        },
+        dob: {
+          type: Date,
+        },
+        address: {
+          type: String,
+        },
+        signature: {
+          type: String,
+        },
+        todaysDate: {
+          type: String,
+        },
+      },
+      ownerTwo: {
+        firstName: {
+          type: String,
+        },
+        surname: {
+          type: String,
+        },
+        dob: {
+          type: Date,
+        },
+        address: {
+          type: String,
+        },
+        signature: {
+          type: String,
+        },
+        todaysDate: {
+          type: String,
+        },
+        mobileTelephone: {
+          type: String,
+        },
+      },
+      agent: {
+        nuovaAgent: {
+          fullName: {
+            type: String,
+          },
+          signature: {
+            type: String,
+          },
+          todaysDate: {
+            type: Date,
+          },
+        },
+      },
+    },
   },
   { timestamps: true }
 );
