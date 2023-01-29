@@ -520,17 +520,32 @@ const PropertyFactFindSchema = new mongoose.Schema(
         gsc: {
           type: [String],
         },
+        gscExpiryDate: {
+          type: Date,
+        },
         epc: {
           type: [String],
+        },
+        epcExpiryDate: {
+          type: Date,
         },
         lra: {
           type: [String],
         },
+        lraExpiryDate: {
+          type: Date,
+        },
         eicr: {
           type: [String],
         },
+        eicrExpiryDate: {
+          type: Date,
+        },
         pat: {
           type: [String],
+        },
+        patExpiryDate: {
+          type: Date,
         },
         smokeAndHeatDetector: {
           type: String,
