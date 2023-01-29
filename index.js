@@ -20,6 +20,7 @@ const prospectsRoute = require("./routes/propertyManagementPortal/prospect/prosp
 const tenancyFormRoute = require("./routes/propertyManagementPortal/TenancyForm/TenancyForm");
 const inventoryRoute = require("./routes/propertyManagementPortal/propertyReview/inventory/inventory");
 const inspectionReportRoute = require("./routes/propertyManagementPortal/propertyReview/inspectionReport/inspectionReport");
+const propertyFactFindRoute = require("./routes/propertyManagementPortal/propertyFactFind/propertyFactFind");
 
 // express app initialization
 const app = express();
@@ -53,6 +54,7 @@ app.use("/api/certificatesDocuments", certficatesAndDocumentsRoute);
 app.use("/api/reports", reportRoute);
 app.use("/api/prospects", prospectsRoute);
 app.use("/api/tenancyform", tenancyFormRoute);
+app.use("/api/propertyFactFindForm", propertyFactFindRoute);
 app.use("/api/inventory", inventoryRoute);
 app.use("/api/inspectionReport", inspectionReportRoute);
 app.use("/api/calenderEvents", calenderEventsRoute);
