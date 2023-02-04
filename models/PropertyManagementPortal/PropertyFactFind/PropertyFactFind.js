@@ -40,7 +40,7 @@ const PropertyFactFindSchema = new mongoose.Schema(
 
     propertyDetails: {
       propertyType: {
-        type: String,
+        type: [String],
       },
       roomObject: {
         rooms: {
@@ -548,7 +548,7 @@ const PropertyFactFindSchema = new mongoose.Schema(
           type: Date,
         },
         smokeAndHeatDetector: {
-          type: String,
+          type: [String],
         },
       },
 

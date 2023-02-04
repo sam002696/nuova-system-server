@@ -14,4 +14,16 @@ router.post("/", async (req, res, next) => {
     next(err);
   }
 });
+
+//get all forms
+
+router.get("/", async (req, res, next) => {
+  try {
+    const allForms = await PropertyFactFind.find({});
+
+    res.status(200).json(allForms);
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;
