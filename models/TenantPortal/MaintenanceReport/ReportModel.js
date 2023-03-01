@@ -23,6 +23,9 @@ const ReportModelSchema = new mongoose.Schema(
     landlordName: {
       type: String,
     },
+    landlordEmail: {
+      type: String,
+    },
     unitName: {
       type: String,
     },
