@@ -20,6 +20,13 @@ const CertificateUploadSchema = new mongoose.Schema(
     certificateAddedBy: {
       type: String,
     },
+    certificateExpiryDate: {
+      type: Date,
+    },
+    isExpired: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

@@ -37,6 +37,26 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// is Expired
+
+router.put("/:certificateid", async (req, res, next) => {
+  const certificateId = req.params.certificateid;
+  try {
+    await CertificateUpload.findOneAndUpdate(
+      certificateId,
+      {
+        $set: { isExpired: true },
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json("ok");
+  } catch (err) {
+    next(err);
+  }
+});
+
 //get all Certificates based on Single Property
 
 // router.get("/:id", async (req, res, next) => {

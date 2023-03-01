@@ -43,10 +43,16 @@ router.post("/", async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   const email = req.query.email;
+  const landlordemail = req.query.landlordemail;
   const contractorName = req.query.name;
   try {
     if (email) {
       const reports = await ReportModel.find({ email: email })
+        .populate("contracBiddingInfo")
+        .populate("assignedContractor");
+      res.status(200).json(reports);
+    } else if (landlordemail) {
+      const reports = await ReportModel.find({ landlordEmail: landlordemail })
         .populate("contracBiddingInfo")
         .populate("assignedContractor");
       res.status(200).json(reports);
