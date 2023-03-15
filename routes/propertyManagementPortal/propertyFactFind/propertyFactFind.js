@@ -17,13 +17,39 @@ router.post("/", async (req, res, next) => {
 
 //get all forms
 
-router.get("/", async (req, res, next) => {
-  try {
-    const allForms = await PropertyFactFind.find({});
+// router.get("/", async (req, res, next) => {
+//   try {
+//     const allForms = await PropertyFactFind.find({});
 
-    res.status(200).json(allForms);
-  } catch (err) {
-    next(err);
+//     res.status(200).json(allForms);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+//find all forms based on lanlord's email
+
+router.get("/", async (req, res, next) => {
+  const email = req.query.email;
+  console.log(email);
+  if (email) {
+    try {
+      const landlordPropertyFactFind = await PropertyFactFind.find({
+        "ownershipDetails.ownerOne.emailAddress": email,
+      });
+
+      res.status(200).json(landlordPropertyFactFind);
+    } catch (err) {
+      next(err);
+    }
+  } else {
+    try {
+      const allForms = await PropertyFactFind.find({});
+
+      res.status(200).json(allForms);
+    } catch (err) {
+      next(err);
+    }
   }
 });
 module.exports = router;
