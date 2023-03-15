@@ -8,7 +8,7 @@ const InspectionReportSchema = new mongoose.Schema(
       },
     },
     rentalPropertyInformation: {
-      addresss: {
+      address: {
         type: String,
       },
     },
@@ -167,13 +167,19 @@ const InspectionReportSchema = new mongoose.Schema(
     ],
 
     acceptanceOfInspectionReport: {
-      name: {
+      signingDate: {
+        type: Date,
+      },
+      signOfInspector: {
         type: String,
       },
-      agree: {
+    },
+
+    acceptanceOfInspectionReportTenant: {
+      tenantName: {
         type: String,
       },
-      disagree: {
+      agreement: {
         type: String,
       },
       disagreeTerm: {
@@ -182,10 +188,25 @@ const InspectionReportSchema = new mongoose.Schema(
       signingDate: {
         type: Date,
       },
-      signOfInspectorOrAgent: {
+      signOfTenant: {
         type: String,
       },
-      signOfTenantOrAgent: {
+    },
+
+    acceptanceOfInspectionReportLandlord: {
+      landlordName: {
+        type: String,
+      },
+      agreement: {
+        type: String,
+      },
+      disagreeTerm: {
+        type: String,
+      },
+      signingDate: {
+        type: Date,
+      },
+      signOfLandlord: {
         type: String,
       },
     },
