@@ -23,4 +23,21 @@ router.post("/upload/:propertyid", async (req, res, next) => {
     next(err);
   }
 });
+
+router.put("/:inspectionReportId", async (req, res, next) => {
+  const inspectionReportId = req.params.inspectionReportId;
+  console.log(inspectionReportId);
+  try {
+    const updatedInspectionReport = await InspectionReport.findByIdAndUpdate(
+      inspectionReportId,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedInspectionReport);
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;
