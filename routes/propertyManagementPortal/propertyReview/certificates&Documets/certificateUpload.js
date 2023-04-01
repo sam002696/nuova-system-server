@@ -1,5 +1,6 @@
 const router = require("express").Router();
 
+const Notification = require("../../../../models/Notification/Notification");
 const Property = require("../../../../models/PropertyManagementPortal/AddProperty/Property");
 const CertificateUpload = require("../../../../models/PropertyManagementPortal/PropertyReview/Certificates&Documents/CertificateUpload");
 const createError = require("../../../../utils/error");
@@ -13,9 +14,26 @@ router.post("/upload/:singlepropertyid", async (req, res, next) => {
   try {
     const savedNewCertificates = await newCertificates.save();
     try {
-      await Property.findByIdAndUpdate(singleproperty, {
+      const propertyDetails = await Property.findByIdAndUpdate(singleproperty, {
         $push: { certificatesDocuments: savedNewCertificates._id },
       });
+      await Notification.findOneAndUpdate(
+        {},
+        {
+          $push: {
+            CertificateAdd: {
+              propertyName: propertyDetails.propertyAddress.propertyName,
+              propertyAddress: propertyDetails.propertyAddress.addressline1,
+              certificateName: savedNewCertificates.certificateName,
+              certificateAddedBy: savedNewCertificates.certificateAddedBy,
+              certificateProviderEmail:
+                savedNewCertificates.certificateProviderEmail,
+              certificateExpiryDate: savedNewCertificates.certificateExpiryDate,
+            },
+          },
+        },
+        { upsert: true }
+      );
     } catch (err) {
       // return next(createError(403, "wrong property id"));
       next(err);

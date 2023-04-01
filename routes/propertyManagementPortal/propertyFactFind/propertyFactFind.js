@@ -1,3 +1,4 @@
+const Notification = require("../../../models/Notification/Notification");
 const PropertyFactFind = require("../../../models/PropertyManagementPortal/PropertyFactFind/PropertyFactFind");
 
 const router = require("express").Router();
@@ -9,6 +10,22 @@ router.post("/", async (req, res, next) => {
   console.log(req.body);
   try {
     const savedPropertyFactFind = await newPropertyFactFind.save();
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          PropertyFactFind: {
+            ownerEmail:
+              savedPropertyFactFind.ownershipDetails.ownerOne.emailAddress,
+            ownerName:
+              savedPropertyFactFind.ownershipDetails.ownerOne.firstName,
+            ownerPhoneno:
+              savedPropertyFactFind.ownershipDetails.ownerOne.mobileTelephone,
+          },
+        },
+      },
+      { upsert: true }
+    );
     res.status(200).json(savedPropertyFactFind);
   } catch (err) {
     next(err);

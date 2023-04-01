@@ -16,7 +16,6 @@ const TenancyFormSchema = new mongoose.Schema(
         type: Number,
       },
     },
-
     tenantInfo: {
       title: {
         type: String,

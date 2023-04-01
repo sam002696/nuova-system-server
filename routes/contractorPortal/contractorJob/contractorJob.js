@@ -1,4 +1,5 @@
 const ContractorJob = require("../../../models/ContractorPortal/ContractorJob/ContractorJob");
+const Notification = require("../../../models/Notification/Notification");
 const ReportModel = require("../../../models/TenantPortal/MaintenanceReport/ReportModel");
 
 const router = require("express").Router();
@@ -10,11 +11,23 @@ router.put("/:reportid", async (req, res, next) => {
   const reportid = req.params.reportid;
   const newJob = new ContractorJob(req.body);
   try {
-    await ReportModel.findByIdAndUpdate(
+    const reportInfo = await ReportModel.findByIdAndUpdate(
       reportid,
       { $set: { post: true } },
 
       { new: true }
+    );
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          "TenantMaintenance.TenantMaintenanceAcceptance": {
+            tenantEmail: reportInfo.email,
+            maintenanceTitle: reportInfo.issueName,
+          },
+        },
+      },
+      { upsert: true }
     );
 
     // Task 2 start

@@ -1,3 +1,4 @@
+const Notification = require("../../../models/Notification/Notification");
 const Prospects = require("../../../models/PropertyManagementPortal/Prospect/Prospect");
 
 const router = require("express").Router();
@@ -9,6 +10,19 @@ router.post("/", async (req, res, next) => {
   console.log(req.body);
   try {
     const savedProspect = await newProspect.save();
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          Prospects: {
+            applicantEmail: savedProspect.details.emailAddress,
+            applicantName: savedProspect.details.fullName,
+            tenantPhoneno: savedProspect.details.mobile,
+          },
+        },
+      },
+      { upsert: true }
+    );
     res.status(200).json(savedProspect);
   } catch (err) {
     next(err);

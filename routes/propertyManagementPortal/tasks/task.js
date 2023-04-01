@@ -1,3 +1,4 @@
+const Notification = require("../../../models/Notification/Notification");
 const Tasks = require("../../../models/PropertyManagementPortal/Tasks/Tasks");
 
 const router = require("express").Router();
@@ -10,6 +11,39 @@ router.post("/", async (req, res, next) => {
     const savedTask = await newTask.save();
     const { uploadAllTasks, ...others } = savedTask._doc;
     console.log(others);
+    if (savedTask.taskFor === "Tenants") {
+      await Notification.findOneAndUpdate(
+        {},
+        {
+          $push: {
+            TaskReceiveTenant: {
+              taskTitle: savedTask.taskTitle,
+              taskFor: savedTask.taskFor,
+              assignedUsername: savedTask.assignedUsername,
+              assignedUseremail: savedTask.assignedUseremail,
+            },
+          },
+        },
+        { upsert: true }
+      );
+    }
+    if (savedTask.taskFor === "Landlords") {
+      await Notification.findOneAndUpdate(
+        {},
+        {
+          $push: {
+            TaskReceiveLandlord: {
+              taskTitle: savedTask.taskTitle,
+              taskFor: savedTask.taskFor,
+              assignedUsername: savedTask.assignedUsername,
+              assignedUseremail: savedTask.assignedUseremail,
+            },
+          },
+        },
+        { upsert: true }
+      );
+    }
+
     res.status(200).json(others);
   } catch (err) {
     next(err);
@@ -23,6 +57,34 @@ router.post("/all", async (req, res, next) => {
   try {
     const savedTask = await newTask.save();
     const { uploadSingleTask, ...others } = savedTask._doc;
+    if (savedTask.taskFor === "Tenants") {
+      await Notification.findOneAndUpdate(
+        {},
+        {
+          $push: {
+            TaskReceiveTenant: {
+              taskTitle: savedTask.taskTitle,
+              taskFor: savedTask.taskFor,
+            },
+          },
+        },
+        { upsert: true }
+      );
+    }
+    if (savedTask.taskFor === "Landlords") {
+      await Notification.findOneAndUpdate(
+        {},
+        {
+          $push: {
+            TaskReceiveLandlord: {
+              taskTitle: savedTask.taskTitle,
+              taskFor: savedTask.taskFor,
+            },
+          },
+        },
+        { upsert: true }
+      );
+    }
     res.status(200).json(others);
   } catch (err) {
     next(err);

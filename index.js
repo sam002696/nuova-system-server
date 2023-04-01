@@ -21,6 +21,7 @@ const tenancyFormRoute = require("./routes/propertyManagementPortal/TenancyForm/
 const inventoryRoute = require("./routes/propertyManagementPortal/propertyReview/inventory/inventory");
 const inspectionReportRoute = require("./routes/propertyManagementPortal/propertyReview/inspectionReport/inspectionReport");
 const propertyFactFindRoute = require("./routes/propertyManagementPortal/propertyFactFind/propertyFactFind");
+const notificationRoute = require("./routes/notification/notification");
 
 // express app initialization
 const app = express();
@@ -61,6 +62,7 @@ app.use("/api/calenderEvents", calenderEventsRoute);
 app.use("/api/contractorJobs", contractorJobRoute);
 app.use("/api/biddings", biddingRoute);
 app.use("/api/taskDocuments", taskDocumentsRoute);
+app.use("/api/notifications", notificationRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

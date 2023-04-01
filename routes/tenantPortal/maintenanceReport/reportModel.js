@@ -1,5 +1,7 @@
 const Bidding = require("../../../models/ContractorPortal/ContractorBidding/Bidding");
 const ContractorJob = require("../../../models/ContractorPortal/ContractorJob/ContractorJob");
+const Notification = require("../../../models/Notification/Notification");
+
 const ReportModel = require("../../../models/TenantPortal/MaintenanceReport/ReportModel");
 
 const router = require("express").Router();
@@ -11,6 +13,20 @@ router.post("/", async (req, res, next) => {
   const newReport = new ReportModel(req.body);
   try {
     const savedReport = await newReport.save();
+
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          MaintenanceInfo: {
+            username: savedReport.username,
+            email: savedReport.email,
+            issueName: savedReport.issueName,
+          },
+        },
+      },
+      { upsert: true }
+    );
 
     // Task 1 start
     await ReportModel.findByIdAndUpdate(
@@ -139,7 +155,7 @@ router.put("/acceptoffer/:reportid/:biddingid", async (req, res, next) => {
   const reportid = req.params.reportid;
   const biddingid = req.params.biddingid;
   try {
-    await ReportModel.findByIdAndUpdate(
+    const reportInfo = await ReportModel.findByIdAndUpdate(
       reportid,
       {
         $set: { assignedContractor: biddingid },
@@ -147,6 +163,30 @@ router.put("/acceptoffer/:reportid/:biddingid", async (req, res, next) => {
       {
         new: true,
       }
+    );
+
+    const biddingInfo = await Bidding.findByIdAndUpdate(
+      biddingid,
+      {
+        $set: { offerAccepted: true },
+      },
+      {
+        new: true,
+      }
+    );
+
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          "TenantMaintenance.contractorAssignInfo": {
+            tenantEmail: reportInfo.email,
+            contratorName: biddingInfo.contractorName,
+            issueName: reportInfo.issueName,
+          },
+        },
+      },
+      { upsert: true }
     );
 
     // Task 3 start
@@ -180,15 +220,6 @@ router.put("/acceptoffer/:reportid/:biddingid", async (req, res, next) => {
       }
     );
 
-    await Bidding.findByIdAndUpdate(
-      biddingid,
-      {
-        $set: { offerAccepted: true },
-      },
-      {
-        new: true,
-      }
-    );
     await ContractorJob.findByIdAndUpdate(
       reportid,
       {
@@ -261,7 +292,7 @@ router.put("/completejob/:reportid/:biddingid", async (req, res, next) => {
   const reportid = req.params.reportid;
   const biddingid = req.params.biddingid;
   try {
-    await ReportModel.findByIdAndUpdate(
+    const reportInfo = await ReportModel.findByIdAndUpdate(
       reportid,
       {
         $set: { assignedContractor: biddingid },
@@ -269,6 +300,30 @@ router.put("/completejob/:reportid/:biddingid", async (req, res, next) => {
       {
         new: true,
       }
+    );
+
+    const biddingInfo = await Bidding.findByIdAndUpdate(
+      biddingid,
+      {
+        $set: { completedJob: true },
+      },
+      {
+        new: true,
+      }
+    );
+
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          "TenantMaintenance.jobCompletion": {
+            tenantEmail: reportInfo.email,
+            contratorName: biddingInfo.contractorName,
+            issueName: reportInfo.issueName,
+          },
+        },
+      },
+      { upsert: true }
     );
 
     // Task 4 start
@@ -302,15 +357,6 @@ router.put("/completejob/:reportid/:biddingid", async (req, res, next) => {
       }
     );
 
-    await Bidding.findByIdAndUpdate(
-      biddingid,
-      {
-        $set: { completedJob: true },
-      },
-      {
-        new: true,
-      }
-    );
     await ContractorJob.findByIdAndUpdate(
       reportid,
       {
@@ -342,7 +388,7 @@ router.put("/incompletejob/:reportid/:biddingid", async (req, res, next) => {
   const reportid = req.params.reportid;
   const biddingid = req.params.biddingid;
   try {
-    await ReportModel.findByIdAndUpdate(
+    const reportInfo = await ReportModel.findByIdAndUpdate(
       reportid,
       {
         $unset: { assignedContractor: "" },
@@ -351,20 +397,33 @@ router.put("/incompletejob/:reportid/:biddingid", async (req, res, next) => {
         new: true,
       }
     );
-    await ReportModel.findByIdAndUpdate(
-      reportid,
+    const biddingInfo = await Bidding.findByIdAndUpdate(
+      biddingid,
       {
-        $set: { taskIncomplete: true },
+        $set: { incompletedJob: true },
       },
       {
         new: true,
       }
     );
 
-    await Bidding.findByIdAndUpdate(
-      biddingid,
+    await Notification.findOneAndUpdate(
+      {},
       {
-        $set: { incompletedJob: true },
+        $push: {
+          "TenantMaintenance.jobCompletion": {
+            tenantEmail: reportInfo.email,
+            contratorName: biddingInfo.contractorName,
+            issueName: reportInfo.issueName,
+          },
+        },
+      },
+      { upsert: true }
+    );
+    await ReportModel.findByIdAndUpdate(
+      reportid,
+      {
+        $set: { taskIncomplete: true },
       },
       {
         new: true,

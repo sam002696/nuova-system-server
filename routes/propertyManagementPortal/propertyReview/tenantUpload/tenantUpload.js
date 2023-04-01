@@ -2,6 +2,7 @@ const router = require("express").Router();
 const tenantUpload = require("../../../../models/PropertyManagementPortal/PropertyReview/TenantUpload/TenantUpload");
 const property = require("../../../../models/PropertyManagementPortal/AddProperty/Property");
 const createError = require("../../../../utils/error");
+const Notification = require("../../../../models/Notification/Notification");
 
 //CREATE
 router.post("/upload/:propertyid", async (req, res, next) => {
@@ -11,9 +12,22 @@ router.post("/upload/:propertyid", async (req, res, next) => {
   try {
     const savedtenantUploads = await tenantUploads.save();
     try {
-      await property.findByIdAndUpdate(propertyId, {
+      const propertyInfo = await property.findByIdAndUpdate(propertyId, {
         $push: { tenantDetails: savedtenantUploads._id },
       });
+      //landlord notification
+      await Notification.findOneAndUpdate(
+        {},
+        {
+          $push: {
+            "TenantAdd.landlord": {
+              tenantName: savedtenantUploads.tenantPersonalInfo.fullName,
+              propertyName: propertyInfo.propertyAddress.propertyName,
+            },
+          },
+        },
+        { upsert: true }
+      );
     } catch (err) {
       next(err);
     }

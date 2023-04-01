@@ -1,3 +1,4 @@
+const Notification = require("../../../models/Notification/Notification");
 const TaskDocuments = require("../../../models/PropertyManagementPortal/Tasks/TaskDocuments");
 const Tasks = require("../../../models/PropertyManagementPortal/Tasks/Tasks");
 
@@ -21,6 +22,19 @@ router.put("/:id", async (req, res, next) => {
         {
           new: true,
         }
+      );
+      await Notification.findOneAndUpdate(
+        {},
+        {
+          $push: {
+            TaskReceivePm: {
+              taskTitle: findTask.taskTitle,
+              assignedUsername: findTask.assignedUsername,
+              assignedUseremail: findTask.assignedUseremail,
+            },
+          },
+        },
+        { upsert: true }
       );
     } else {
       await Tasks.findByIdAndUpdate(
