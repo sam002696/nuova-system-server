@@ -279,6 +279,100 @@ const NotificationSchema = new mongoose.Schema(
         },
       ],
     },
+
+    //Contractor Portal
+    //Find Jobs
+
+    ContractorJobPosting: [
+      {
+        issueName: {
+          type: String,
+        },
+        tenantAddress: {
+          type: String,
+        },
+        email: {
+          type: String,
+        },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    //Contractor Portal
+    //Job Status Showed in My Jobs in Contractor Portal
+    Jobs: {
+      CompleteJobs: [
+        {
+          contractorName: {
+            type: String,
+          },
+          contractorEmail: {
+            type: String,
+          },
+          issueName: {
+            type: String,
+          },
+          date: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+      IncompleteJobs: [
+        {
+          contractorName: {
+            type: String,
+          },
+          contractorEmail: {
+            type: String,
+          },
+          issueName: {
+            type: String,
+          },
+          date: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+      CurrentJobs: [
+        {
+          contractorName: {
+            type: String,
+          },
+          contractorEmail: {
+            type: String,
+          },
+          issueName: {
+            type: String,
+          },
+          date: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+      DeclinedJobs: [
+        {
+          contractorName: {
+            type: String,
+          },
+          contractorEmail: {
+            type: String,
+          },
+          issueName: {
+            type: String,
+          },
+          date: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+    },
   },
   { timestamps: true }
 );

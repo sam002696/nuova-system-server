@@ -181,7 +181,22 @@ router.put("/acceptoffer/:reportid/:biddingid", async (req, res, next) => {
         $push: {
           "TenantMaintenance.contractorAssignInfo": {
             tenantEmail: reportInfo.email,
-            contratorName: biddingInfo.contractorName,
+            contractorName: biddingInfo.contractorName,
+            issueName: reportInfo.issueName,
+          },
+        },
+      },
+      { upsert: true }
+    );
+
+    // Contractor getting notification for current jobs upon property manager's acceptance
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          "Jobs.CurrentJobs": {
+            contractorName: biddingInfo.contractorName,
+            contractorEmail: biddingInfo.contractorEmail,
             issueName: reportInfo.issueName,
           },
         },
@@ -251,6 +266,42 @@ router.put("/declineoffer/:reportid/:biddingid", async (req, res, next) => {
   const reportid = req.params.reportid;
   const biddingid = req.params.biddingid;
   try {
+    //reportInfo & BiddingInfo
+    const reportInfo = await ReportModel.findByIdAndUpdate(
+      reportid,
+      {
+        $set: { assignedContractor: biddingid },
+      },
+      {
+        new: true,
+      }
+    );
+
+    const biddingInfo = await Bidding.findByIdAndUpdate(
+      biddingid,
+      {
+        $set: { completedJob: true },
+      },
+      {
+        new: true,
+      }
+    );
+
+    // Contractor getting notification for Declined jobs upon property manager's decline button click
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          "Jobs.DeclinedJobs": {
+            contractorName: biddingInfo.contractorName,
+            contractorEmail: biddingInfo.contractorEmail,
+            issueName: reportInfo.issueName,
+          },
+        },
+      },
+      { upsert: true }
+    );
+
     await Bidding.findByIdAndUpdate(
       biddingid,
       {
@@ -319,6 +370,21 @@ router.put("/completejob/:reportid/:biddingid", async (req, res, next) => {
           "TenantMaintenance.jobCompletion": {
             tenantEmail: reportInfo.email,
             contratorName: biddingInfo.contractorName,
+            issueName: reportInfo.issueName,
+          },
+        },
+      },
+      { upsert: true }
+    );
+
+    // Contractor getting notification for completed jobs upon property manager's complete button click
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          "Jobs.CompleteJobs": {
+            contractorName: biddingInfo.contractorName,
+            contractorEmail: biddingInfo.contractorEmail,
             issueName: reportInfo.issueName,
           },
         },
@@ -407,11 +473,13 @@ router.put("/incompletejob/:reportid/:biddingid", async (req, res, next) => {
       }
     );
 
+    // Need to recheck complete or incomplete
+
     await Notification.findOneAndUpdate(
       {},
       {
         $push: {
-          "TenantMaintenance.jobCompletion": {
+          "TenantMaintenance.jobIncomplete": {
             tenantEmail: reportInfo.email,
             contratorName: biddingInfo.contractorName,
             issueName: reportInfo.issueName,
@@ -420,6 +488,22 @@ router.put("/incompletejob/:reportid/:biddingid", async (req, res, next) => {
       },
       { upsert: true }
     );
+
+    // Contractor getting notification for Incomplete jobs upon property manager's decline
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          "Jobs.IncompleteJobs": {
+            contractorName: biddingInfo.contractorName,
+            contractorEmail: biddingInfo.contractorEmail,
+            issueName: reportInfo.issueName,
+          },
+        },
+      },
+      { upsert: true }
+    );
+
     await ReportModel.findByIdAndUpdate(
       reportid,
       {
