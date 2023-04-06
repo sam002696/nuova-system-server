@@ -279,6 +279,81 @@ const NotificationSchema = new mongoose.Schema(
         },
       ],
     },
+    ReportsDocuments: {
+      landlord: {
+        inventory: [
+          {
+            propertyName: {
+              type: String,
+            },
+            landlordEmail: {
+              type: String,
+            },
+            date: {
+              type: Date,
+              default: Date.now,
+            },
+          },
+        ],
+        inspectionReport: [
+          {
+            propertyName: {
+              type: String,
+            },
+            landlordEmail: {
+              type: String,
+            },
+            date: {
+              type: Date,
+              default: Date.now,
+            },
+          },
+        ],
+      },
+      propertyManager: {
+        inspectionReport: [
+          {
+            propertyName: {
+              type: String,
+            },
+            landlordEmail: {
+              type: String,
+            },
+            date: {
+              type: Date,
+              default: Date.now,
+            },
+          },
+        ],
+      },
+    },
+    PropertyAdd: {
+      landlord: [
+        {
+          landlordEmail: {
+            type: String,
+          },
+          propertyName: {
+            type: String,
+          },
+          date: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+      propertyManager: [
+        {
+          propertyName: {
+            type: String,
+          },
+          date: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+    },
   },
   { timestamps: true }
 );
