@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const Notification = require("../../../models/Notification/Notification");
 const Property = require("../../../models/PropertyManagementPortal/AddProperty/Property");
 const TenantUpload = require("../../../models/PropertyManagementPortal/PropertyReview/TenantUpload/TenantUpload");
 
@@ -9,6 +10,30 @@ router.post("/", async (req, res, next) => {
   console.log(req.body);
   try {
     const savedProperty = await newProperty.save();
+    // await Notification.findOneAndUpdate(
+    //   {},
+    //   {
+    //     $push: {
+    //       "PropertyAdd.landlord": {
+    //         propertyName: propertyInfo.propertyAddress.propertyName,
+    //         landlordEmail: propertyInfo.landlordInfo.landlordEmail,
+    //       },
+    //     },
+    //   },
+    //   { upsert: true }
+    // );
+    // await Notification.findOneAndUpdate(
+    //   {},
+    //   {
+    //     $push: {
+    //       "PropertyAdd.propertyManager": {
+    //         propertyName: propertyInfo.propertyAddress.propertyName,
+    //         landlordEmail: propertyInfo.landlordInfo.landlordEmail,
+    //       },
+    //     },
+    //   },
+    //   { upsert: true }
+    // );
     res.status(200).json(savedProperty);
   } catch (err) {
     next(err);

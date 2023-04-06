@@ -1,3 +1,4 @@
+const Notification = require("../../../../models/Notification/Notification");
 const Property = require("../../../../models/PropertyManagementPortal/AddProperty/Property");
 const Inventory = require("../../../../models/PropertyManagementPortal/PropertyReview/Inventory/Inventory");
 
@@ -12,9 +13,21 @@ router.post("/upload/:propertyid", async (req, res, next) => {
   try {
     const savedInventory = await newInventory.save();
     try {
-      await Property.findByIdAndUpdate(propertyId, {
+      const propertyInfo = await Property.findByIdAndUpdate(propertyId, {
         $set: { inventory: savedInventory._id },
       });
+      await Notification.findOneAndUpdate(
+        {},
+        {
+          $push: {
+            "ReportsDocuments.landlord.inventory": {
+              propertyName: propertyInfo.propertyAddress.propertyName,
+              landlordEmail: propertyInfo.landlordInfo.landlordEmail,
+            },
+          },
+        },
+        { upsert: true }
+      );
     } catch (err) {
       next(err);
     }

@@ -21,6 +21,20 @@ router.post("/upload/:propertyid", async (req, res, next) => {
         {
           $push: {
             "TenantAdd.landlord": {
+              landlordEmail: propertyInfo.landlordInfo.landlordEmail,
+              tenantName: savedtenantUploads.tenantPersonalInfo.fullName,
+              propertyName: propertyInfo.propertyAddress.propertyName,
+            },
+          },
+        },
+        { upsert: true }
+      );
+      //property manager notification
+      await Notification.findOneAndUpdate(
+        {},
+        {
+          $push: {
+            "TenantAdd.propertyManager": {
               tenantName: savedtenantUploads.tenantPersonalInfo.fullName,
               propertyName: propertyInfo.propertyAddress.propertyName,
             },
