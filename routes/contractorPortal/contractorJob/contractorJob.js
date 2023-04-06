@@ -30,6 +30,21 @@ router.put("/:reportid", async (req, res, next) => {
       { upsert: true }
     );
 
+    // Contractor Notified for Job Posting By Property Manager
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          ContractorJobPosting: {
+            issueName: newJob.issueName,
+            tenantAddress: newJob.tenantAddress,
+            email: newJob.email,
+          },
+        },
+      },
+      { upsert: true }
+    );
+
     // Task 2 start
     await ReportModel.findByIdAndUpdate(
       reportid,
