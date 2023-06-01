@@ -10,30 +10,30 @@ router.post("/", async (req, res, next) => {
   console.log(req.body);
   try {
     const savedProperty = await newProperty.save();
-    // await Notification.findOneAndUpdate(
-    //   {},
-    //   {
-    //     $push: {
-    //       "PropertyAdd.landlord": {
-    //         propertyName: propertyInfo.propertyAddress.propertyName,
-    //         landlordEmail: propertyInfo.landlordInfo.landlordEmail,
-    //       },
-    //     },
-    //   },
-    //   { upsert: true }
-    // );
-    // await Notification.findOneAndUpdate(
-    //   {},
-    //   {
-    //     $push: {
-    //       "PropertyAdd.propertyManager": {
-    //         propertyName: propertyInfo.propertyAddress.propertyName,
-    //         landlordEmail: propertyInfo.landlordInfo.landlordEmail,
-    //       },
-    //     },
-    //   },
-    //   { upsert: true }
-    // );
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          "PropertyAdd.landlord": {
+            propertyName: savedProperty.propertyAddress.propertyName,
+            landlordEmail: savedProperty.landlordInfo.landlordEmail,
+          },
+        },
+      },
+      { upsert: true }
+    );
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          "PropertyAdd.propertyManager": {
+            propertyName: savedProperty.propertyAddress.propertyName,
+            landlordName: savedProperty.landlordInfo.landlordName,
+          },
+        },
+      },
+      { upsert: true }
+    );
     res.status(200).json(savedProperty);
   } catch (err) {
     next(err);

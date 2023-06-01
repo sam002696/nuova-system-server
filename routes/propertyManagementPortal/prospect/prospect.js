@@ -17,7 +17,7 @@ router.post("/", async (req, res, next) => {
           Prospects: {
             applicantEmail: savedProspect.details.emailAddress,
             applicantName: savedProspect.details.fullName,
-            tenantPhoneno: savedProspect.details.mobile,
+            applicantPhoneno: savedProspect.details.mobile,
           },
         },
       },

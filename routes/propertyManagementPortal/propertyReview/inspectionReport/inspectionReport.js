@@ -55,9 +55,9 @@ router.put("/:inspectionReportId/:propertyId", async (req, res, next) => {
       {},
       {
         $push: {
-          "ReportsDocuments.landlord.inspectionReport": {
+          "ReportsDocuments.propertyManager.inspectionReport": {
             propertyName: propertyInfo.propertyAddress.propertyName,
-            landlordEmail: propertyInfo.landlordInfo.landlordEmail,
+            landlordName: propertyInfo.landlordInfo.landlordName,
           },
         },
       },

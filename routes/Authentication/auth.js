@@ -8,6 +8,7 @@ const Notification = require("../../models/Notification/Notification");
 router.post("/register", async (req, res, next) => {
   try {
     const newUser = new User(req.body);
+    console.log(newUser);
     const user = await newUser.save();
     await Notification.findOneAndUpdate(
       {},

@@ -50,22 +50,21 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-//delete user
-// router.delete("/:id", async (req, res) => {
-//   // if (req.body.userId === req.params.id) {
-//   try {
-//     const user = await User.findById(req.params.id);
-//     try {
-//       await Post.deleteMany({ username: user.username });
-//       await User.findByIdAndDelete(req.params.id);
-//       res.status(200).json("user has been deleted");
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   } catch {
-//     res.status(404).json("user not found");
-//   }
-// });
+// delete user
+router.delete("/:id", async (req, res, next) => {
+  try {
+    // const user = await User.findById(req.params.id);
+    // console.log(user._id);
+    try {
+      await User.findByIdAndDelete(req.params.id);
+      res.status(200).json("user has been deleted");
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } catch {
+    res.status(404).json("user not found");
+  }
+});
 
 //get user
 router.get("/:id", async (req, res, next) => {
