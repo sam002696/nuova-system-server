@@ -3,6 +3,9 @@ const ContractorJob = require("../../../models/ContractorPortal/ContractorJob/Co
 const Notification = require("../../../models/Notification/Notification");
 
 const ReportModel = require("../../../models/TenantPortal/MaintenanceReport/ReportModel");
+const {
+  sendMaintenanceEmail,
+} = require("../../../utils/email/maintenaceEmail");
 
 const router = require("express").Router();
 
@@ -13,6 +16,8 @@ router.post("/", async (req, res, next) => {
   const newReport = new ReportModel(req.body);
   try {
     const savedReport = await newReport.save();
+
+    // property manager getting maintenance notification
 
     await Notification.findOneAndUpdate(
       {},
@@ -48,6 +53,11 @@ router.post("/", async (req, res, next) => {
       }
     );
     // Task 1 end
+
+    // property manager getting maintenace notification through email
+    if (savedReport) {
+      sendMaintenanceEmail(savedReport);
+    }
 
     res.status(200).json(savedReport);
   } catch (err) {

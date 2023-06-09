@@ -133,16 +133,20 @@ const NotificationSchema = new mongoose.Schema(
         taskSend: {
           type: String,
         },
-        assignedUsername: {
+        tenantName: {
           type: String,
         },
-        assignedUseremail: {
+        tenantEmail: {
+          type: String,
+        },
+        taskAssignedTo: {
           type: String,
         },
         date: {
           type: Date,
           default: Date.now,
         },
+
         tenantTaskReceiveMessage: {
           type: String,
           default: "task has been assigned",
@@ -157,10 +161,13 @@ const NotificationSchema = new mongoose.Schema(
         taskSend: {
           type: String,
         },
-        assignedUsername: {
+        landlordName: {
           type: String,
         },
-        assignedUseremail: {
+        landlordEmail: {
+          type: String,
+        },
+        taskAssignedTo: {
           type: String,
         },
         date: {

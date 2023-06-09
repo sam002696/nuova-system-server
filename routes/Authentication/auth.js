@@ -10,6 +10,7 @@ router.post("/register", async (req, res, next) => {
     const newUser = new User(req.body);
     console.log(newUser);
     const user = await newUser.save();
+    // property manager getting user registration notification
     await Notification.findOneAndUpdate(
       {},
       {

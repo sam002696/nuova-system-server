@@ -10,6 +10,7 @@ router.post("/", async (req, res, next) => {
   console.log(req.body);
   try {
     const savedProspect = await newProspect.save();
+    // property manager getting prospects notification
     await Notification.findOneAndUpdate(
       {},
       {

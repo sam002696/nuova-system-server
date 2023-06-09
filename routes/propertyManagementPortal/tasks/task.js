@@ -3,7 +3,7 @@ const Tasks = require("../../../models/PropertyManagementPortal/Tasks/Tasks");
 
 const router = require("express").Router();
 
-//create tasks for tenants
+//create tasks for tenants/landlords
 
 router.post("/", async (req, res, next) => {
   const newTask = new Tasks(req.body);
@@ -19,8 +19,8 @@ router.post("/", async (req, res, next) => {
             TaskReceiveTenant: {
               taskTitle: savedTask.taskTitle,
               taskFor: savedTask.taskFor,
-              assignedUsername: savedTask.assignedUsername,
-              assignedUseremail: savedTask.assignedUseremail,
+              tenantName: savedTask.assignedUsername,
+              tenantEmail: savedTask.assignedUseremail,
             },
           },
         },
@@ -35,8 +35,8 @@ router.post("/", async (req, res, next) => {
             TaskReceiveLandlord: {
               taskTitle: savedTask.taskTitle,
               taskFor: savedTask.taskFor,
-              assignedUsername: savedTask.assignedUsername,
-              assignedUseremail: savedTask.assignedUseremail,
+              landlordName: savedTask.assignedUsername,
+              landlordEmail: savedTask.assignedUseremail,
             },
           },
         },
@@ -50,7 +50,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-// create tasks for all tenants
+// create tasks for all tenants/landlords
 
 router.post("/all", async (req, res, next) => {
   const newTask = new Tasks(req.body);
@@ -65,6 +65,7 @@ router.post("/all", async (req, res, next) => {
             TaskReceiveTenant: {
               taskTitle: savedTask.taskTitle,
               taskFor: savedTask.taskFor,
+              taskAssignedTo: "All",
             },
           },
         },
@@ -79,6 +80,7 @@ router.post("/all", async (req, res, next) => {
             TaskReceiveLandlord: {
               taskTitle: savedTask.taskTitle,
               taskFor: savedTask.taskFor,
+              taskAssignedTo: "All",
             },
           },
         },
