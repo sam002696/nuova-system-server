@@ -17,6 +17,7 @@ router.post("/register", async (req, res, next) => {
           GetPeople: {
             username: user.username,
             email: user.email,
+            role: user.role,
           },
         },
       },
