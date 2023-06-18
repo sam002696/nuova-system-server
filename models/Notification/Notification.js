@@ -21,7 +21,7 @@ const NotificationSchema = new mongoose.Schema(
           type: String,
           default: "a new issue has been added",
         },
-        isView: {
+        isViewed: {
           type: Boolean,
           default: false,
         },
@@ -46,6 +46,10 @@ const NotificationSchema = new mongoose.Schema(
           type: String,
           default: "a new property fact find has been added",
         },
+        isViewed: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
     TenantFactFind: [
@@ -66,6 +70,10 @@ const NotificationSchema = new mongoose.Schema(
         tenantFactFindForm: {
           type: String,
           default: "tenant fact find form has been added",
+        },
+        isViewed: {
+          type: Boolean,
+          default: false,
         },
       },
     ],
@@ -88,6 +96,10 @@ const NotificationSchema = new mongoose.Schema(
           type: String,
           default: "a new prospect has been added",
         },
+        isViewed: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
     Calender: [
@@ -105,6 +117,10 @@ const NotificationSchema = new mongoose.Schema(
         calenderMessage: {
           type: String,
           default: "event has been added",
+        },
+        isViewed: {
+          type: Boolean,
+          default: false,
         },
       },
     ],
@@ -126,6 +142,10 @@ const NotificationSchema = new mongoose.Schema(
         taskReceivePm: {
           type: String,
           default: "a new task has been received",
+        },
+        isViewed: {
+          type: Boolean,
+          default: false,
         },
       },
     ],
@@ -155,6 +175,10 @@ const NotificationSchema = new mongoose.Schema(
           type: String,
           default: "task has been assigned",
         },
+        isViewed: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
     TaskReceiveLandlord: [
@@ -182,17 +206,22 @@ const NotificationSchema = new mongoose.Schema(
           type: String,
           default: "task has been assigned",
         },
+        isViewed: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
     GetPeople: [
       {
         username: {
           type: String,
-          required: true,
         },
         email: {
           type: String,
-          required: true,
+        },
+        role: {
+          type: String,
         },
         userAddMessage: {
           type: String,
@@ -201,6 +230,10 @@ const NotificationSchema = new mongoose.Schema(
         date: {
           type: Date,
           default: Date.now,
+        },
+        isViewed: {
+          type: Boolean,
+          default: false,
         },
       },
     ],
@@ -228,6 +261,10 @@ const NotificationSchema = new mongoose.Schema(
           type: Date,
           default: Date.now,
         },
+        isViewed: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
     TenantMaintenance: {
@@ -247,6 +284,10 @@ const NotificationSchema = new mongoose.Schema(
             type: String,
             default:
               "maintenance request has been accepted by property manager",
+          },
+          isViewed: {
+            type: Boolean,
+            default: false,
           },
         },
       ],
@@ -269,6 +310,10 @@ const NotificationSchema = new mongoose.Schema(
             type: String,
             default: "contractor has been assigned for the job",
           },
+          isViewed: {
+            type: Boolean,
+            default: false,
+          },
         },
       ],
       jobCompletion: [
@@ -289,6 +334,10 @@ const NotificationSchema = new mongoose.Schema(
           jobCompletionMessage: {
             type: String,
             default: "job is completed",
+          },
+          isViewed: {
+            type: Boolean,
+            default: false,
           },
         },
       ],
@@ -311,6 +360,10 @@ const NotificationSchema = new mongoose.Schema(
             type: String,
             default: "job is incomplete",
           },
+          isViewed: {
+            type: Boolean,
+            default: false,
+          },
         },
       ],
     },
@@ -330,6 +383,10 @@ const NotificationSchema = new mongoose.Schema(
             type: Date,
             default: Date.now,
           },
+          isViewed: {
+            type: Boolean,
+            default: false,
+          },
         },
       ],
       propertyManager: [
@@ -347,6 +404,10 @@ const NotificationSchema = new mongoose.Schema(
           tenantAddMessagePm: {
             type: String,
             default: "tenant has been added",
+          },
+          isViewed: {
+            type: Boolean,
+            default: false,
           },
         },
       ],
@@ -369,6 +430,10 @@ const NotificationSchema = new mongoose.Schema(
               type: String,
               default: "inventory report has been added",
             },
+            isViewed: {
+              type: Boolean,
+              default: false,
+            },
           },
         ],
         inspectionReport: [
@@ -386,6 +451,10 @@ const NotificationSchema = new mongoose.Schema(
             reportDocumentInspectionMessageLandlord: {
               type: String,
               default: "inspection report has been added",
+            },
+            isViewed: {
+              type: Boolean,
+              default: false,
             },
           },
         ],
@@ -406,6 +475,10 @@ const NotificationSchema = new mongoose.Schema(
             reportDocumentInspectionMessagePm: {
               type: String,
               default: "inspection report has been added",
+            },
+            isViewed: {
+              type: Boolean,
+              default: false,
             },
           },
         ],
@@ -428,6 +501,10 @@ const NotificationSchema = new mongoose.Schema(
             type: String,
             default: "property has been added",
           },
+          isViewed: {
+            type: Boolean,
+            default: false,
+          },
         },
       ],
       propertyManager: [
@@ -445,6 +522,10 @@ const NotificationSchema = new mongoose.Schema(
           propertyAddMessagePm: {
             type: String,
             default: "property has been added",
+          },
+          isViewed: {
+            type: Boolean,
+            default: false,
           },
         },
       ],
@@ -471,6 +552,10 @@ const NotificationSchema = new mongoose.Schema(
           type: String,
           default: "new job has been posted!",
         },
+        isViewed: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
 
@@ -493,6 +578,10 @@ const NotificationSchema = new mongoose.Schema(
         jobBidderInfo: {
           type: String,
           default: "contractor has bid for the job",
+        },
+        isViewed: {
+          type: Boolean,
+          default: false,
         },
       },
     ],
@@ -518,6 +607,10 @@ const NotificationSchema = new mongoose.Schema(
             type: String,
             default: "job has been completed!",
           },
+          isViewed: {
+            type: Boolean,
+            default: false,
+          },
         },
       ],
       IncompleteJobs: [
@@ -538,6 +631,10 @@ const NotificationSchema = new mongoose.Schema(
           inCompleteJob: {
             type: String,
             default: "job has been incompleted!",
+          },
+          isViewed: {
+            type: Boolean,
+            default: false,
           },
         },
       ],
@@ -560,6 +657,10 @@ const NotificationSchema = new mongoose.Schema(
             type: String,
             default: "this is the current job",
           },
+          isViewed: {
+            type: Boolean,
+            default: false,
+          },
         },
       ],
       DeclinedJobs: [
@@ -580,6 +681,10 @@ const NotificationSchema = new mongoose.Schema(
           declineJob: {
             type: String,
             default: "job has been declined!",
+          },
+          isViewed: {
+            type: Boolean,
+            default: false,
           },
         },
       ],

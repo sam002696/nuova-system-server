@@ -14,4 +14,26 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+
+router.put("/:id", async (req, res, next) => {
+
+  const notificationid = req.params.id;
+  try {
+  await Notification.findByIdAndUpdate(
+      notificationid,
+      {
+        $set: { isViewed: true },
+      },
+      {
+        new: true,
+      }
+    );
+
+  
+    res.status(200).json("Job has been completed!");
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;
