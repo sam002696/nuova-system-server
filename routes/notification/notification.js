@@ -14,25 +14,52 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.put("/:mainid/:objectid", async (req, res, next) => {
+  const { mainid } = req.params;
+  const { objectid } = req.params;
+  const { field } = req.query;
 
-router.put("/:id", async (req, res, next) => {
+  console.log(req.body);
 
-  const notificationid = req.params.id;
+  console.log(mainid, objectid, field);
   try {
-  await Notification.findByIdAndUpdate(
-      notificationid,
-      {
-        $set: { isViewed: true },
-      },
-      {
-        new: true,
-      }
+    let updateField = null;
+    let message = "";
+
+    switch (field) {
+      case "MaintenanceInfo":
+        updateField = "MaintenanceInfo";
+        message = "Maintenance field updated";
+        break;
+      case "CalendarAdd":
+        updateField = "Calender";
+        message = "Calendar field updated";
+        break;
+      case "GetPeople":
+        updateField = "GetPeople";
+        message = "GetPeople isViewed field updated";
+        break;
+      // Add more cases for other fields if needed
+
+      default:
+        res.status(400).json("Invalid field specified");
+        return;
+    }
+
+    const notification = await Notification.findByIdAndUpdate(
+      mainid,
+      { $set: { [`${updateField}.$[element].isViewed`]: true } },
+      { arrayFilters: [{ "element._id": objectid }] }
     );
 
-  
-    res.status(200).json("Job has been completed!");
-  } catch (err) {
-    next(err);
+    if (notification) {
+      res.status(200).json({ message });
+    } else {
+      res.status(404).json({ message: "Notification not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

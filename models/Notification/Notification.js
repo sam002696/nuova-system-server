@@ -25,6 +25,10 @@ const NotificationSchema = new mongoose.Schema(
           type: Boolean,
           default: false,
         },
+        label: {
+          type: String,
+          default: "MaintenanceInfo",
+        },
       },
     ],
     PropertyFactFind: [
@@ -99,6 +103,10 @@ const NotificationSchema = new mongoose.Schema(
         isViewed: {
           type: Boolean,
           default: false,
+        },
+        label: {
+          type: String,
+          default: "Prospects",
         },
       },
     ],
@@ -234,6 +242,10 @@ const NotificationSchema = new mongoose.Schema(
         isViewed: {
           type: Boolean,
           default: false,
+        },
+        label: {
+          type: String,
+          default: "GetPeople",
         },
       },
     ],
