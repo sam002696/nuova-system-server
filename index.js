@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const port = process.env.PORT || 5500;
+// const http = require("http");
+const { Server } = require("socket.io");
 //require routes
 
 const authRoute = require("./routes/Authentication/auth");
@@ -22,6 +24,7 @@ const inventoryRoute = require("./routes/propertyManagementPortal/propertyReview
 const inspectionReportRoute = require("./routes/propertyManagementPortal/propertyReview/inspectionReport/inspectionReport");
 const propertyFactFindRoute = require("./routes/propertyManagementPortal/propertyFactFind/propertyFactFind");
 const notificationRoute = require("./routes/notification/notification");
+const Notification = require("./models/Notification/Notification");
 // const sendMail = require("./utils/sendEmail");
 
 // express app initialization
@@ -29,6 +32,31 @@ const app = express();
 dotenv.config();
 app.use(express.json());
 app.use(cors());
+
+// socket io init
+
+
+const io = new Server({
+  cors: {
+    origin: "*",
+  },
+});
+
+
+
+io.on("connection", (socket) => {
+  console.log("someone has connected!")
+
+  socket.on("disconnect", () => {
+    console.log("someone has disconnected!");
+  });
+});
+
+global.io = io;
+
+
+
+// mongo init
 
 const uri = process.env.MONGOURI;
 
@@ -47,6 +75,7 @@ const connect = () => {
 };
 mongoose.set("strictQuery", false);
 
+app.set("io", io);
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/tasks", taskRoute);
@@ -64,7 +93,6 @@ app.use("/api/contractorJobs", contractorJobRoute);
 app.use("/api/biddings", biddingRoute);
 app.use("/api/taskDocuments", taskDocumentsRoute);
 app.use("/api/notifications", notificationRoute);
-// app.use("/mail", sendMail);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
@@ -83,3 +111,5 @@ app.listen(port, () => {
   connect();
   console.log("Connected to Server");
 });
+
+io.listen(6500);

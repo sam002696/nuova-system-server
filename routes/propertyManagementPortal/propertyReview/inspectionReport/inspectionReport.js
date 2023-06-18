@@ -1,6 +1,10 @@
 const Notification = require("../../../../models/Notification/Notification");
 const Property = require("../../../../models/PropertyManagementPortal/AddProperty/Property");
 const InspectionReport = require("../../../../models/PropertyManagementPortal/PropertyReview/InspectionReport/InspectionReport");
+const {
+  sendInspectionInfoToPropertyManagerEmail,
+} = require("../../../../utils/email/reportsDocumentsEmail");
+const { emitRealTimeNotifications } = require("../../../notification/emitRealTimeNotifications");
 
 const router = require("express").Router();
 
@@ -16,6 +20,7 @@ router.post("/upload/:propertyid", async (req, res, next) => {
       const propertyInfo = await Property.findByIdAndUpdate(propertyId, {
         $set: { inspectionReport: savedInspectionReport._id },
       });
+      // landlord getting inspection notification
       await Notification.findOneAndUpdate(
         {},
         {
@@ -28,6 +33,11 @@ router.post("/upload/:propertyid", async (req, res, next) => {
         },
         { upsert: true }
       );
+      // landlord getting inspection notification through email
+      if (savedInspectionReport && propertyInfo) {
+        sendInspectionInfoToLandlordEmail(savedInspectionReport, propertyInfo);
+      }
+      emitRealTimeNotifications()
     } catch (err) {
       next(err);
     }
@@ -50,7 +60,7 @@ router.put("/:inspectionReportId/:propertyId", async (req, res, next) => {
       },
       { new: true }
     );
-
+    //property manager getting updated inspection notification
     await Notification.findOneAndUpdate(
       {},
       {
@@ -63,6 +73,14 @@ router.put("/:inspectionReportId/:propertyId", async (req, res, next) => {
       },
       { upsert: true }
     );
+    //property manager getting updated inspection notification info through email
+    if (propertyInfo && updatedInspectionReport) {
+      sendInspectionInfoToPropertyManagerEmail(
+        updatedInspectionReport,
+        propertyInfo
+      );
+    }
+    emitRealTimeNotifications()
     res.status(200).json(updatedInspectionReport);
   } catch (err) {
     next(err);

@@ -1,8 +1,8 @@
 const { sendMail } = require("../sendEmail");
 
-const sendProspectEmail = async (prospectsInfo) => {
-  const subject = "New Prospect";
-  const text = "New Prospect Enquiry";
+const sendTenantFactFindEmail = async (factFindInfo) => {
+  const subject = "Tenant Fact Find";
+  const text = "New Tenant Fact Find Enquiry";
 
   // Custom HTML template
   const html = `
@@ -52,19 +52,20 @@ const sendProspectEmail = async (prospectsInfo) => {
       <body>
         <div class="container">
           <div class="header">
-            <h1 class="title">New Prospect Enquiry</h1>
+            <h1 class="title">Tenant Fact Find</h1>
           </div>
           <div class="message">
             <p>Hello,</p>
-            <p>You have received a new prospect enquiry. Here are the details:</p>
+            <p>You have received a new tenant fact find. Here are the details:</p>
           </div>
           <div class="details">
-            <p><strong>Name:</strong> ${prospectsInfo.details.fullName}</p>
-            <p><strong>Address:</strong> ${prospectsInfo.details.address}</p>
-            <p><strong>Moveindate:</strong>${prospectsInfo.details.moveindate} </p>
+            <p><strong>Name:</strong> ${factFindInfo.tenantInfo.fullName}</p>
+            <p><strong>Email:</strong> ${factFindInfo.tenantInfo.email}</p>
+            <p><strong>Phone Number:</strong> ${factFindInfo.tenantInfo.telephoneNo}</p>
+            <p><strong>Address:</strong> ${factFindInfo.tenantInfo.currentAddress}</p>
           </div>
           <div class="footer">
-            <p>This email was sent by the Prospect Enquiry System.</p>
+            <p>This email was sent by the Tenant Fact Find System.</p>
           </div>
         </div>
       </body>
@@ -78,10 +79,10 @@ const sendProspectEmail = async (prospectsInfo) => {
     );
 
     const emailResults = await Promise.all(emailPromises);
-    console.log("Prospects emails sent:", emailResults);
+    console.log("Tenant Fact Find emails sent:", emailResults);
   } catch (error) {
-    console.log("Error sending prospects emails:", error);
+    console.log("Error sending Tenant Fact Find emails:", error);
   }
 };
 
-module.exports = { sendProspectEmail };
+module.exports = { sendTenantFactFindEmail };

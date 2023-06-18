@@ -1,9 +1,14 @@
 const Notification = require("../../../models/Notification/Notification");
 const Tasks = require("../../../models/PropertyManagementPortal/Tasks/Tasks");
+const {
+  sendTaskToEveryTenantEmail,
+  sendTaskToEveryLandlordEmail,
+} = require("../../../utils/email/taskEmail");
+const { emitRealTimeNotifications } = require("../../notification/emitRealTimeNotifications");
 
 const router = require("express").Router();
 
-//create tasks for tenants/landlords
+//create tasks for single tenant/landlord
 
 router.post("/", async (req, res, next) => {
   const newTask = new Tasks(req.body);
@@ -11,6 +16,7 @@ router.post("/", async (req, res, next) => {
     const savedTask = await newTask.save();
     const { uploadAllTasks, ...others } = savedTask._doc;
     console.log(others);
+    // single tenant getting task notification
     if (savedTask.taskFor === "Tenants") {
       await Notification.findOneAndUpdate(
         {},
@@ -26,7 +32,9 @@ router.post("/", async (req, res, next) => {
         },
         { upsert: true }
       );
+      sendTaskToEveryTenantEmail(savedTask);
     }
+    // single landlord getting task notification
     if (savedTask.taskFor === "Landlords") {
       await Notification.findOneAndUpdate(
         {},
@@ -42,8 +50,9 @@ router.post("/", async (req, res, next) => {
         },
         { upsert: true }
       );
+      sendTaskToEveryLandlordEmail(savedTask);
     }
-
+    emitRealTimeNotifications()
     res.status(200).json(others);
   } catch (err) {
     next(err);
@@ -57,6 +66,7 @@ router.post("/all", async (req, res, next) => {
   try {
     const savedTask = await newTask.save();
     const { uploadSingleTask, ...others } = savedTask._doc;
+    // all tenants getting task notification
     if (savedTask.taskFor === "Tenants") {
       await Notification.findOneAndUpdate(
         {},
@@ -71,7 +81,9 @@ router.post("/all", async (req, res, next) => {
         },
         { upsert: true }
       );
+      sendTaskToEveryTenantEmail(savedTask);
     }
+    // all landlords getting task notification
     if (savedTask.taskFor === "Landlords") {
       await Notification.findOneAndUpdate(
         {},
@@ -86,7 +98,9 @@ router.post("/all", async (req, res, next) => {
         },
         { upsert: true }
       );
+      sendTaskToEveryLandlordEmail(savedTask);
     }
+    emitRealTimeNotifications()
     res.status(200).json(others);
   } catch (err) {
     next(err);
@@ -99,6 +113,7 @@ router.get("/", async (req, res, next) => {
   const useremail = req.query.useremail;
   const sendtask = req.query.sendTask;
   const taskfor = req.query.taskFor;
+  // property manager getting tasks for tenants and landlords
   try {
     if (taskfor === "Tenants" && (useremail || sendtask)) {
       const task = await Tasks.find({

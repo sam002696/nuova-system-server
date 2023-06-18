@@ -1,5 +1,9 @@
 const Notification = require("../../../models/Notification/Notification");
 const PropertyFactFind = require("../../../models/PropertyManagementPortal/PropertyFactFind/PropertyFactFind");
+const {
+  sendPropertyFactFindEmail,
+} = require("../../../utils/email/propertyFactFindEmail");
+const { emitRealTimeNotifications } = require("../../notification/emitRealTimeNotifications");
 
 const router = require("express").Router();
 
@@ -10,6 +14,7 @@ router.post("/", async (req, res, next) => {
   console.log(req.body);
   try {
     const savedPropertyFactFind = await newPropertyFactFind.save();
+    // property manager getting property fact find notification
     await Notification.findOneAndUpdate(
       {},
       {
@@ -26,6 +31,11 @@ router.post("/", async (req, res, next) => {
       },
       { upsert: true }
     );
+    // property manager getting property fact find through email
+    if (savedPropertyFactFind) {
+      sendPropertyFactFindEmail(savedPropertyFactFind);
+    }
+    emitRealTimeNotifications()
     res.status(200).json(savedPropertyFactFind);
   } catch (err) {
     next(err);

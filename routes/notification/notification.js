@@ -7,7 +7,7 @@ const router = require("express").Router();
 router.get("/", async (req, res, next) => {
   try {
     const manageNotifications = await Notification.findOne({});
-
+    io.emit("notifications", manageNotifications);
     res.status(200).json(manageNotifications);
   } catch (err) {
     next(err);

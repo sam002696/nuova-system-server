@@ -1,5 +1,9 @@
 const Notification = require("../../../models/Notification/Notification");
 const Prospects = require("../../../models/PropertyManagementPortal/Prospect/Prospect");
+const { sendProspectEmail } = require("../../../utils/email/prospectEmail");
+const {
+  emitRealTimeNotifications,
+} = require("../../notification/emitRealTimeNotifications");
 
 const router = require("express").Router();
 
@@ -24,6 +28,12 @@ router.post("/", async (req, res, next) => {
       },
       { upsert: true }
     );
+
+    // property manager getting prospects notification through email
+    if (savedProspect) {
+      sendProspectEmail(savedProspect);
+    }
+    emitRealTimeNotifications();
     res.status(200).json(savedProspect);
   } catch (err) {
     next(err);

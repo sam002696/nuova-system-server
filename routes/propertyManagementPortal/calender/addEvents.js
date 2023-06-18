@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Notification = require("../../../models/Notification/Notification");
 const Calender = require("../../../models/PropertyManagementPortal/Calender/AddEvents");
 const { sendCalendarEmail } = require("../../../utils/email/calenderEmail");
+const { emitRealTimeNotifications } = require("../../notification/emitRealTimeNotifications");
 
 //post a single calender event
 
@@ -26,6 +27,7 @@ router.post("/", async (req, res, next) => {
     if (savedNewEvents) {
       sendCalendarEmail(savedNewEvents);
     }
+    emitRealTimeNotifications()
     res.status(200).json(savedNewEvents);
   } catch (err) {
     next(err);

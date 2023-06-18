@@ -1,6 +1,10 @@
 const Notification = require("../../../models/Notification/Notification");
 const TaskDocuments = require("../../../models/PropertyManagementPortal/Tasks/TaskDocuments");
 const Tasks = require("../../../models/PropertyManagementPortal/Tasks/Tasks");
+const {
+  sendTaskToPropertyManagerEmail,
+} = require("../../../utils/email/taskEmail");
+const { emitRealTimeNotifications } = require("../../notification/emitRealTimeNotifications");
 
 const router = require("express").Router();
 
@@ -12,7 +16,7 @@ router.put("/:id", async (req, res, next) => {
   try {
     const savedTaskDocuments = await newTaskDocument.save();
     const findTask = await Tasks.findById({ _id: taskid });
-
+    // property manager getting tenants/landlords task
     if (findTask.sendTask === "Send to individual") {
       await Tasks.findByIdAndUpdate(
         taskid,
@@ -22,19 +26,6 @@ router.put("/:id", async (req, res, next) => {
         {
           new: true,
         }
-      );
-      await Notification.findOneAndUpdate(
-        {},
-        {
-          $push: {
-            TaskReceivePm: {
-              taskTitle: findTask.taskTitle,
-              assignedUsername: findTask.assignedUsername,
-              assignedUseremail: findTask.assignedUseremail,
-            },
-          },
-        },
-        { upsert: true }
       );
     } else {
       await Tasks.findByIdAndUpdate(
@@ -47,7 +38,27 @@ router.put("/:id", async (req, res, next) => {
         }
       );
     }
+    // property manager getting tenants/landlords tasks notifications
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          TaskReceivePm: {
+            taskTitle: findTask.taskTitle,
+            assignedUsername: findTask.assignedUsername,
+            assignedUseremail: findTask.assignedUseremail,
+          },
+        },
+      },
+      { upsert: true }
+    );
+    // property manager getting tenants/landlords tasks through email
+    if (savedTaskDocuments) {
+      sendTaskToPropertyManagerEmail(savedTaskDocuments, findTask);
+    }
+    emitRealTimeNotifications()
     res.status(200).json(savedTaskDocuments);
+
   } catch (err) {
     next(err);
   }

@@ -21,6 +21,10 @@ const NotificationSchema = new mongoose.Schema(
           type: String,
           default: "a new issue has been added",
         },
+        isView: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
     PropertyFactFind: [
@@ -470,6 +474,28 @@ const NotificationSchema = new mongoose.Schema(
       },
     ],
 
+    //bidder info
+    JobBidderInfo: [
+      {
+        bidderName: {
+          type: String,
+        },
+        bidderAmount: {
+          type: Number,
+        },
+        jobName: {
+          type: String,
+        },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+        jobBidderInfo: {
+          type: String,
+          default: "contractor has bid for the job",
+        },
+      },
+    ],
     //Contractor Portal
     //Job Status Showed in My Jobs in Contractor Portal
     Jobs: {

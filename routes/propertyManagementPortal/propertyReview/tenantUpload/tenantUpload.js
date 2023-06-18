@@ -3,6 +3,11 @@ const tenantUpload = require("../../../../models/PropertyManagementPortal/Proper
 const property = require("../../../../models/PropertyManagementPortal/AddProperty/Property");
 const createError = require("../../../../utils/error");
 const Notification = require("../../../../models/Notification/Notification");
+const {
+  sendTenantAddInfoToPropertyManager,
+  sendTenantAddInfoToLandlord,
+} = require("../../../../utils/email/tenantAddEmail");
+const { emitRealTimeNotifications } = require("../../../notification/emitRealTimeNotifications");
 
 //CREATE
 router.post("/upload/:propertyid", async (req, res, next) => {
@@ -15,7 +20,7 @@ router.post("/upload/:propertyid", async (req, res, next) => {
       const propertyInfo = await property.findByIdAndUpdate(propertyId, {
         $push: { tenantDetails: savedtenantUploads._id },
       });
-      //landlord notification
+      //landlord getting tenant add notification
       await Notification.findOneAndUpdate(
         {},
         {
@@ -29,7 +34,7 @@ router.post("/upload/:propertyid", async (req, res, next) => {
         },
         { upsert: true }
       );
-      //property manager notification
+      //property manager getting tenant add notification
       await Notification.findOneAndUpdate(
         {},
         {
@@ -42,6 +47,16 @@ router.post("/upload/:propertyid", async (req, res, next) => {
         },
         { upsert: true }
       );
+
+      //Property manager getting tenant add through email
+      if (savedtenantUploads) {
+        sendTenantAddInfoToPropertyManager(savedtenantUploads);
+      }
+      // landlord getting tenant add through email
+      if (savedtenantUploads && propertyInfo) {
+        sendTenantAddInfoToLandlord(savedtenantUploads, propertyInfo);
+      }
+      emitRealTimeNotifications()
     } catch (err) {
       next(err);
     }

@@ -1,6 +1,10 @@
 const Notification = require("../../../../models/Notification/Notification");
 const Property = require("../../../../models/PropertyManagementPortal/AddProperty/Property");
 const Inventory = require("../../../../models/PropertyManagementPortal/PropertyReview/Inventory/Inventory");
+const {
+  sendInventoryInfoToLandlordEmail,
+} = require("../../../../utils/email/reportsDocumentsEmail");
+const { emitRealTimeNotifications } = require("../../../notification/emitRealTimeNotifications");
 
 const router = require("express").Router();
 
@@ -16,6 +20,7 @@ router.post("/upload/:propertyid", async (req, res, next) => {
       const propertyInfo = await Property.findByIdAndUpdate(propertyId, {
         $set: { inventory: savedInventory._id },
       });
+      // landlord getting inventory notification
       await Notification.findOneAndUpdate(
         {},
         {
@@ -28,6 +33,11 @@ router.post("/upload/:propertyid", async (req, res, next) => {
         },
         { upsert: true }
       );
+      // landlord getting inventory info through email
+      if (savedInventory && propertyInfo) {
+        sendInventoryInfoToLandlordEmail(savedInventory, propertyInfo);
+      }
+      emitRealTimeNotifications()
     } catch (err) {
       next(err);
     }

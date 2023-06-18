@@ -34,6 +34,7 @@ router.post("/upload/:singlepropertyid", async (req, res, next) => {
         },
         { upsert: true }
       );
+      emitRealTimeNotifications()
     } catch (err) {
       // return next(createError(403, "wrong property id"));
       next(err);

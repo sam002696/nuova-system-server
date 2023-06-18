@@ -1,8 +1,8 @@
 const { sendMail } = require("../sendEmail");
 
-const sendProspectEmail = async (prospectsInfo) => {
-  const subject = "New Prospect";
-  const text = "New Prospect Enquiry";
+const sendPropertyFactFindEmail = async (factFindInfo) => {
+  const subject = "New Property Fact Find";
+  const text = "New Property Fact Find Enquiry";
 
   // Custom HTML template
   const html = `
@@ -51,20 +51,18 @@ const sendProspectEmail = async (prospectsInfo) => {
       </head>
       <body>
         <div class="container">
-          <div class="header">
-            <h1 class="title">New Prospect Enquiry</h1>
-          </div>
           <div class="message">
             <p>Hello,</p>
-            <p>You have received a new prospect enquiry. Here are the details:</p>
+            <p>You have received a new property fact find. Here are the details:</p>
           </div>
           <div class="details">
-            <p><strong>Name:</strong> ${prospectsInfo.details.fullName}</p>
-            <p><strong>Address:</strong> ${prospectsInfo.details.address}</p>
-            <p><strong>Moveindate:</strong>${prospectsInfo.details.moveindate} </p>
+            <p><strong>First Name:</strong>${factFindInfo.ownershipDetails.firstName}</p>
+            <p><strong>Sur Name:</strong>${factFindInfo.ownershipDetails.surname}</p>
+            <p><strong>Property Address:</strong> ${factFindInfo.property.propertyAddress}</p>
+            <p><strong>Moveindate:</strong></p>
           </div>
           <div class="footer">
-            <p>This email was sent by the Prospect Enquiry System.</p>
+            <p>This email was sent by the Property Fact Find Enquiry System.</p>
           </div>
         </div>
       </body>
@@ -78,10 +76,10 @@ const sendProspectEmail = async (prospectsInfo) => {
     );
 
     const emailResults = await Promise.all(emailPromises);
-    console.log("Prospects emails sent:", emailResults);
+    console.log("Property Fact Find emails sent:", emailResults);
   } catch (error) {
-    console.log("Error sending prospects emails:", error);
+    console.log("Error sending Property Fact Find emails:", error);
   }
 };
 
-module.exports = { sendProspectEmail };
+module.exports = { sendPropertyFactFindEmail };

@@ -1,8 +1,7 @@
 const router = require("express").Router();
 const User = require("../../models/AdminPortal/CreateUser/User");
-const bcrypt = require("bcrypt");
-const createError = require("../../utils/error");
 const Notification = require("../../models/Notification/Notification");
+const { emitRealTimeNotifications } = require("../notification/emitRealTimeNotifications");
 
 //register
 router.post("/register", async (req, res, next) => {
@@ -23,6 +22,7 @@ router.post("/register", async (req, res, next) => {
       },
       { upsert: true }
     );
+    emitRealTimeNotifications()
     res.status(200).json(user);
   } catch (err) {
     next(err);

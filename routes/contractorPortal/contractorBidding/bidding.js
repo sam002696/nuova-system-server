@@ -1,5 +1,6 @@
 const Bidding = require("../../../models/ContractorPortal/ContractorBidding/Bidding");
 const ContractorJob = require("../../../models/ContractorPortal/ContractorJob/ContractorJob");
+const Notification = require("../../../models/Notification/Notification");
 const Report = require("../../../models/TenantPortal/MaintenanceReport/ReportModel");
 
 const router = require("express").Router();
@@ -11,7 +12,7 @@ router.put("/:jobid", async (req, res, next) => {
   const jobid = req.params.jobid;
   try {
     const savedBidding = await newBidding.save();
-    await Report.findByIdAndUpdate(jobid, {
+    const reportInfo = await Report.findByIdAndUpdate(jobid, {
       $push: { contracBiddingInfo: newBidding._id },
     });
     await ContractorJob.findByIdAndUpdate(
@@ -35,6 +36,23 @@ router.put("/:jobid", async (req, res, next) => {
     await ContractorJob.findByIdAndUpdate(jobid, {
       $push: { appliedJobs: newBidding._id },
     });
+
+    // property mananger getting bidding info notification about the job
+    await Notification.findOneAndUpdate(
+      {},
+      {
+        $push: {
+          JobBidderInfo: {
+            bidderName: savedBidding.contractorName,
+            bidderAmount: savedBidding.BiddingAmount,
+            jobName: reportInfo.issueName,
+          },
+        },
+      },
+      { upsert: true }
+    );
+
+    emitRealTimeNotifications();
     res.status(200).json(savedBidding);
   } catch (err) {
     next(err);
