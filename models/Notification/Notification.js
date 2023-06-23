@@ -25,6 +25,10 @@ const NotificationSchema = new mongoose.Schema(
           type: Boolean,
           default: false,
         },
+        label: {
+          type: String,
+          default: "MaintenanceInfo",
+        },
       },
     ],
     PropertyFactFind: [
@@ -49,6 +53,10 @@ const NotificationSchema = new mongoose.Schema(
         isViewed: {
           type: Boolean,
           default: false,
+        },
+        label: {
+          type: String,
+          default: "PropertyFactFind",
         },
       },
     ],
@@ -75,6 +83,10 @@ const NotificationSchema = new mongoose.Schema(
           type: Boolean,
           default: false,
         },
+        label: {
+          type: String,
+          default: "TenantFactFind",
+        },
       },
     ],
     Prospects: [
@@ -100,6 +112,10 @@ const NotificationSchema = new mongoose.Schema(
           type: Boolean,
           default: false,
         },
+        label: {
+          type: String,
+          default: "Prospects",
+        },
       },
     ],
     Calender: [
@@ -121,6 +137,10 @@ const NotificationSchema = new mongoose.Schema(
         isViewed: {
           type: Boolean,
           default: false,
+        },
+        label: {
+          type: String,
+          default: "Calender",
         },
       },
     ],
@@ -146,6 +166,10 @@ const NotificationSchema = new mongoose.Schema(
         isViewed: {
           type: Boolean,
           default: false,
+        },
+        label: {
+          type: String,
+          default: "TaskReceivePm",
         },
       },
     ],
@@ -179,6 +203,10 @@ const NotificationSchema = new mongoose.Schema(
           type: Boolean,
           default: false,
         },
+        label: {
+          type: String,
+          default: "TaskReceiveTenant",
+        },
       },
     ],
     TaskReceiveLandlord: [
@@ -210,6 +238,10 @@ const NotificationSchema = new mongoose.Schema(
           type: Boolean,
           default: false,
         },
+        label: {
+          type: String,
+          default: "TaskReceiveLandlord",
+        },
       },
     ],
     GetPeople: [
@@ -235,9 +267,13 @@ const NotificationSchema = new mongoose.Schema(
           type: Boolean,
           default: false,
         },
+        label: {
+          type: String,
+          default: "GetPeople",
+        },
       },
     ],
-    CertificateAdd: [
+    CertificateAddPM: [
       {
         propertyName: {
           type: String,
@@ -257,6 +293,10 @@ const NotificationSchema = new mongoose.Schema(
         certificateExpiryDate: {
           type: Date,
         },
+        certificateAddMessagePM: {
+          type: String,
+          default: "Landlord has added a new certificate",
+        },
         date: {
           type: Date,
           default: Date.now,
@@ -264,6 +304,48 @@ const NotificationSchema = new mongoose.Schema(
         isViewed: {
           type: Boolean,
           default: false,
+        },
+        label: {
+          type: String,
+          default: "CertificateAddPM",
+        },
+      },
+    ],
+    CertificateAddLandlord: [
+      {
+        propertyName: {
+          type: String,
+        },
+        propertyAddress: {
+          type: String,
+        },
+        certificateName: {
+          type: String,
+        },
+        certificateProviderEmail: {
+          type: String,
+        },
+        certificateAddedBy: {
+          type: String,
+        },
+        certificateExpiryDate: {
+          type: Date,
+        },
+        certificateAddMessageLandlord: {
+          type: String,
+          default: "PM has added a new certificate",
+        },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+        isViewed: {
+          type: Boolean,
+          default: false,
+        },
+        label: {
+          type: String,
+          default: "CertificateAddLandlord",
         },
       },
     ],
@@ -288,6 +370,10 @@ const NotificationSchema = new mongoose.Schema(
           isViewed: {
             type: Boolean,
             default: false,
+          },
+          label: {
+            type: String,
+            default: "TenantMaintenanceAcceptance",
           },
         },
       ],
@@ -314,6 +400,10 @@ const NotificationSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
           },
+          label: {
+            type: String,
+            default: "contractorAssignInfo",
+          },
         },
       ],
       jobCompletion: [
@@ -338,6 +428,10 @@ const NotificationSchema = new mongoose.Schema(
           isViewed: {
             type: Boolean,
             default: false,
+          },
+          label: {
+            type: String,
+            default: "jobCompletion",
           },
         },
       ],
@@ -364,6 +458,10 @@ const NotificationSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
           },
+          label: {
+            type: String,
+            default: "jobIncomplete",
+          },
         },
       ],
     },
@@ -387,6 +485,10 @@ const NotificationSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
           },
+          label: {
+            type: String,
+            default: "TenantAddLandlord",
+          },
         },
       ],
       propertyManager: [
@@ -408,6 +510,10 @@ const NotificationSchema = new mongoose.Schema(
           isViewed: {
             type: Boolean,
             default: false,
+          },
+          label: {
+            type: String,
+            default: "TenantAddPM",
           },
         },
       ],
@@ -434,6 +540,10 @@ const NotificationSchema = new mongoose.Schema(
               type: Boolean,
               default: false,
             },
+            label: {
+              type: String,
+              default: "InventoryLandlord",
+            },
           },
         ],
         inspectionReport: [
@@ -455,6 +565,10 @@ const NotificationSchema = new mongoose.Schema(
             isViewed: {
               type: Boolean,
               default: false,
+            },
+            label: {
+              type: String,
+              default: "InspectionReportLandlord",
             },
           },
         ],
@@ -479,6 +593,10 @@ const NotificationSchema = new mongoose.Schema(
             isViewed: {
               type: Boolean,
               default: false,
+            },
+            label: {
+              type: String,
+              default: "InspectionReportPM",
             },
           },
         ],
@@ -505,6 +623,10 @@ const NotificationSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
           },
+          label: {
+            type: String,
+            default: "PropertyAddLandlord",
+          },
         },
       ],
       propertyManager: [
@@ -526,6 +648,10 @@ const NotificationSchema = new mongoose.Schema(
           isViewed: {
             type: Boolean,
             default: false,
+          },
+          label: {
+            type: String,
+            default: "PropertyAddPM",
           },
         },
       ],
@@ -556,6 +682,10 @@ const NotificationSchema = new mongoose.Schema(
           type: Boolean,
           default: false,
         },
+        label: {
+          type: String,
+          default: "ContractorJobPosting",
+        },
       },
     ],
 
@@ -582,6 +712,10 @@ const NotificationSchema = new mongoose.Schema(
         isViewed: {
           type: Boolean,
           default: false,
+        },
+        label: {
+          type: String,
+          default: "JobBidderInfo",
         },
       },
     ],
@@ -611,6 +745,10 @@ const NotificationSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
           },
+          label: {
+            type: String,
+            default: "CompleteJobs",
+          },
         },
       ],
       IncompleteJobs: [
@@ -635,6 +773,10 @@ const NotificationSchema = new mongoose.Schema(
           isViewed: {
             type: Boolean,
             default: false,
+          },
+          label: {
+            type: String,
+            default: "IncompleteJobs",
           },
         },
       ],
@@ -661,6 +803,10 @@ const NotificationSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
           },
+          label: {
+            type: String,
+            default: "CurrentJobs",
+          },
         },
       ],
       DeclinedJobs: [
@@ -686,6 +832,10 @@ const NotificationSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
           },
+          label: {
+          type: String,
+          default: "DeclinedJobs",
+        },
         },
       ],
     },
