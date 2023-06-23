@@ -2,7 +2,13 @@ const router = require("express").Router();
 const Notification = require("../../../models/Notification/Notification");
 const Property = require("../../../models/PropertyManagementPortal/AddProperty/Property");
 const TenantUpload = require("../../../models/PropertyManagementPortal/PropertyReview/TenantUpload/TenantUpload");
-const { emitRealTimeNotifications } = require("../../notification/emitRealTimeNotifications");
+const {
+  sendPropertyAddToEveryPropertyManagerEmail,
+  sendPropertyAddToSingleLandlordEmail,
+} = require("../../../utils/email/propertyEmail");
+const {
+  emitRealTimeNotifications,
+} = require("../../notification/emitRealTimeNotifications");
 
 //create a property
 
@@ -35,7 +41,11 @@ router.post("/", async (req, res, next) => {
       },
       { upsert: true }
     );
-    emitRealTimeNotifications()
+    if (savedProperty) {
+      sendPropertyAddToEveryPropertyManagerEmail(savedProperty);
+      sendPropertyAddToSingleLandlordEmail(savedProperty);
+    }
+    emitRealTimeNotifications();
     res.status(200).json(savedProperty);
   } catch (err) {
     next(err);

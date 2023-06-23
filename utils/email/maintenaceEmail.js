@@ -468,6 +468,321 @@ const sendJobInfoToAllContractorEmail = async (maintenanceInfo) => {
   }
 };
 
+const sendCurrentJobInfoToSingleContractorEmail = async (
+  maintenanceInfo,
+  biddingInfo
+) => {
+  const subject = "New Current Job Information";
+  const text = "New Current Job Information";
+
+  const html = `
+    <html>
+      <head>
+        <style>
+          /* Add your custom styles here */
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          }
+          .header {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          .title {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 10px;
+          }
+          .description {
+            font-size: 16px;
+            color: #666666;
+            margin-bottom: 20px;
+          }
+          .content {
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 20px;
+          }
+          .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #999999;
+            font-size: 12px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1 class="title">New Current Job Information</h1>
+            <p class="description">There is a new current job:</p>
+          </div>
+          <div class="content">
+            <p><strong>Current Job Name:</strong> ${maintenanceInfo.issueName}</p>
+            <p><strong>Issue Description:</strong> ${maintenanceInfo.issueDescription}</p>
+            <p><strong>Tenant Contact Email:</strong> ${maintenanceInfo.email}</p>
+          </div>
+          <div class="footer">
+            <p>This email was sent by the Maintenance Request System.</p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  try {
+    const recipient = biddingInfo.contractorEmail;
+    const info = await sendMail(recipient, subject, text, html);
+    console.log("Contractor current job info email sent:", info);
+  } catch (error) {
+    console.log("Error sending contractor current job info email:", error);
+  }
+};
+
+const sendCompleteJobInfoToSingleContractorEmail = async (
+  maintenanceInfo,
+  biddingInfo
+) => {
+  const subject = "Completed Maintenance Job Information";
+  const text = "Completed Maintenance Job Information";
+
+  const html = `
+    <html>
+      <head>
+        <style>
+          /* Add your custom styles here */
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          }
+          .header {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          .title {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 10px;
+          }
+          .description {
+            font-size: 16px;
+            color: #666666;
+            margin-bottom: 20px;
+          }
+          .content {
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 20px;
+          }
+          .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #999999;
+            font-size: 12px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1 class="title">Completed Job Information</h1>
+            <p class="description">The following maintenance job has been completed:</p>
+          </div>
+          <div class="content">
+            <p><strong>Maintenance Request:</strong> ${maintenanceInfo.issueName}</p>
+            <p><strong>Issue Description:</strong> ${maintenanceInfo.issueDescription}</p>
+            <p><strong>Contact Email:</strong> ${maintenanceInfo.email}</p>
+          </div>
+          <div class="footer">
+            <p>This email was sent by the Maintenance Request System.</p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  try {
+    const recipient = biddingInfo.contractorEmail;
+    const info = await sendMail(recipient, subject, text, html);
+    console.log("Contractor complete job info email sent:", info);
+  } catch (error) {
+    console.log("Error sending contractor complete job info email:", error);
+  }
+};
+
+const sendIncompleteJobInfoToSingleContractorEmail = async (
+  maintenanceInfo,
+  biddingInfo
+) => {
+  const subject = "Incomplete Maintenance Job Information";
+  const text = `Incomplete Maintenance Job Information:`;
+
+  const html = `
+    <html>
+      <head>
+        <style>
+          /* Add your custom styles here */
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          }
+          .header {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          .title {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 10px;
+          }
+          .description {
+            font-size: 16px;
+            color: #666666;
+            margin-bottom: 20px;
+          }
+          .content {
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 20px;
+          }
+          .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #999999;
+            font-size: 12px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1 class="title">Incomplete Job Information</h1>
+            <p class="description">The following maintenance job is incomplete:</p>
+          </div>
+          <div class="content">
+            <p><strong>Maintenance Request:</strong> ${maintenanceInfo.issueName}</p>
+            <p><strong>Issue Description:</strong> ${maintenanceInfo.issueDescription}</p>
+            <p><strong>Contact Email:</strong> ${maintenanceInfo.email}</p>
+          </div>
+          <div class="footer">
+            <p>This email was sent by the Maintenance Request System.</p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  try {
+    const recipient = biddingInfo.contractorEmail;
+    const info = await sendMail(recipient, subject, text, html);
+    console.log("Contractor incomplete job info email sent:", info);
+  } catch (error) {
+    console.log("Error sending contractor incomplete job info email:", error);
+  }
+};
+
+const sendDeclinedJobInfoToSingleContractorEmail = async (
+  maintenanceInfo,
+  bididngInfo
+) => {
+  const subject = "Declined Maintenance Job Information";
+  const text = `Declined Maintenance Job Information:`;
+
+  const html = `
+    <html>
+      <head>
+        <style>
+          /* Add your custom styles here */
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          }
+          .header {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          .title {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 10px;
+          }
+          .description {
+            font-size: 16px;
+            color: #666666;
+            margin-bottom: 20px;
+          }
+          .content {
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 20px;
+          }
+          .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #999999;
+            font-size: 12px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1 class="title">Declined Job Information</h1>
+            <p class="description">The following maintenance job has been declined:</p>
+          </div>
+          <div class="content">
+            <p><strong>Maintenance Request:</strong> ${maintenanceInfo.issueName}</p>
+            <p><strong>Issue Description:</strong> ${maintenanceInfo.issueDescription}</p>
+          </div>
+          <div class="footer">
+            <p>This email was sent by the Maintenance Request System.</p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  try {
+    const recipient = bididngInfo.contractorEmail;
+    const info = await sendMail(recipient, subject, text, html);
+    console.log("Contractor declined job info email sent:", info);
+  } catch (error) {
+    console.log("Error sending contractor declined job info email:", error);
+  }
+};
+
 module.exports = {
   sendMaintenanceEmail,
   sendMaintenanceAcceptanceToTenantEmail,
@@ -475,4 +790,8 @@ module.exports = {
   sendJobCompletionInfoToTenantEmail,
   sendJobInCompletionInfoToTenantEmail,
   sendJobInfoToAllContractorEmail,
+  sendCurrentJobInfoToSingleContractorEmail,
+  sendCompleteJobInfoToSingleContractorEmail,
+  sendIncompleteJobInfoToSingleContractorEmail,
+  sendDeclinedJobInfoToSingleContractorEmail,
 };
