@@ -7,8 +7,15 @@ const {
   sendMaintenanceEmail,
   sendContractorAssignInfoToTenantEmail,
   sendJobCompletionInfoToTenantEmail,
+  sendCurrentJobInfoToSingleContractorEmail,
+  sendCompleteJobInfoToSingleContractorEmail,
+  sendJobInCompletionInfoToTenantEmail,
+  sendIncompleteJobInfoToSingleContractorEmail,
+  sendDeclinedJobInfoToSingleContractorEmail,
 } = require("../../../utils/email/maintenaceEmail");
-const { emitRealTimeNotifications } = require("../../notification/emitRealTimeNotifications");
+const {
+  emitRealTimeNotifications,
+} = require("../../notification/emitRealTimeNotifications");
 
 const router = require("express").Router();
 
@@ -61,7 +68,7 @@ router.post("/", async (req, res, next) => {
     if (savedReport) {
       sendMaintenanceEmail(savedReport);
     }
-    emitRealTimeNotifications()
+    emitRealTimeNotifications();
     res.status(200).json(savedReport);
   } catch (err) {
     next(err);
@@ -206,6 +213,7 @@ router.put("/acceptoffer/:reportid/:biddingid", async (req, res, next) => {
     // tenant getting contractor assign email for their maintenance request
     if (reportInfo && biddingInfo) {
       sendContractorAssignInfoToTenantEmail(reportInfo, biddingInfo);
+      sendCurrentJobInfoToSingleContractorEmail(reportInfo, biddingInfo);
     }
 
     // Contractor getting notification for current jobs upon property manager's acceptance
@@ -273,7 +281,7 @@ router.put("/acceptoffer/:reportid/:biddingid", async (req, res, next) => {
         new: true,
       }
     );
-    emitRealTimeNotifications()
+    emitRealTimeNotifications();
     res.status(200).json("Data has been put!");
   } catch (err) {
     next(err);
@@ -350,8 +358,11 @@ router.put("/declineoffer/:reportid/:biddingid", async (req, res, next) => {
         new: true,
       }
     );
+    if (reportInfo && biddingInfo) {
+      sendDeclinedJobInfoToSingleContractorEmail(reportInfo, biddingInfo);
+    }
     res.status(200).json("Data has been put!");
-    emitRealTimeNotifications()
+    emitRealTimeNotifications();
   } catch (err) {
     next(err);
   }
@@ -404,6 +415,7 @@ router.put("/completejob/:reportid/:biddingid", async (req, res, next) => {
 
     if (reportInfo && biddingInfo) {
       sendJobCompletionInfoToTenantEmail(reportInfo, biddingInfo);
+      sendCompleteJobInfoToSingleContractorEmail(reportInfo, biddingInfo);
     }
 
     // Contractor getting notification for completed jobs upon property manager's complete button click
@@ -471,7 +483,7 @@ router.put("/completejob/:reportid/:biddingid", async (req, res, next) => {
         new: true,
       }
     );
-    emitRealTimeNotifications()
+    emitRealTimeNotifications();
     res.status(200).json("Job has been completed!");
   } catch (err) {
     next(err);
@@ -525,6 +537,7 @@ router.put("/incompletejob/:reportid/:biddingid", async (req, res, next) => {
 
     if (reportInfo && biddingInfo) {
       sendJobInCompletionInfoToTenantEmail(reportInfo, biddingInfo);
+      sendIncompleteJobInfoToSingleContractorEmail(reportInfo, biddingInfo);
     }
 
     // Contractor getting notification for Incomplete jobs upon property manager's decline
@@ -571,7 +584,7 @@ router.put("/incompletejob/:reportid/:biddingid", async (req, res, next) => {
         new: true,
       }
     );
-    emitRealTimeNotifications()
+    emitRealTimeNotifications();
     res.status(200).json("job has been incompleted!");
   } catch (err) {
     next(err);

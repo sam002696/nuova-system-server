@@ -3,8 +3,11 @@ const Notification = require("../../../models/Notification/Notification");
 const ReportModel = require("../../../models/TenantPortal/MaintenanceReport/ReportModel");
 const {
   sendMaintenanceAcceptanceToTenantEmail,
+  sendJobInfoToAllContractorEmail,
 } = require("../../../utils/email/maintenaceEmail");
-const { emitRealTimeNotifications } = require("../../notification/emitRealTimeNotifications");
+const {
+  emitRealTimeNotifications,
+} = require("../../notification/emitRealTimeNotifications");
 
 const router = require("express").Router();
 
@@ -37,6 +40,7 @@ router.put("/:reportid", async (req, res, next) => {
     // tenant getting maintenance acceptance request through email
     if (reportInfo) {
       sendMaintenanceAcceptanceToTenantEmail(reportInfo);
+      sendJobInfoToAllContractorEmail(reportInfo);
     }
 
     // Contractor Notified for Job Posting By Property Manager
@@ -77,7 +81,7 @@ router.put("/:reportid", async (req, res, next) => {
 
     const savedJob = await newJob.save();
 
-    emitRealTimeNotifications()
+    emitRealTimeNotifications();
 
     res.status(200).json(savedJob);
   } catch (err) {
