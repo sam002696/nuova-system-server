@@ -1,4 +1,5 @@
 const Notification = require("../../models/Notification/Notification");
+const { emitRealTimeNotifications } = require("./emitRealTimeNotifications");
 
 const router = require("express").Router();
 
@@ -88,9 +89,10 @@ router.put("/pm/:mainid/:objectid", async (req, res, next) => {
       { $set: { [`${updateField}.$[element].isViewed`]: true } },
       { arrayFilters: [{ "element._id": objectid }] }
     );
-
+   
     if (notification) {
       res.status(200).json({ message });
+      emitRealTimeNotifications()
     } else {
       res.status(404).json({ message: "Notification not found" });
     }
@@ -152,6 +154,7 @@ router.put("/landlord/:mainid/:objectid", async (req, res, next) => {
 
     if (notification) {
       res.status(200).json({ message });
+      emitRealTimeNotifications()
     } else {
       res.status(404).json({ message: "Notification not found" });
     }
@@ -210,6 +213,7 @@ router.put("/tenant/:mainid/:objectid", async (req, res, next) => {
 
     if (notification) {
       res.status(200).json({ message });
+      emitRealTimeNotifications()
     } else {
       res.status(404).json({ message: "Notification not found" });
     }
@@ -268,6 +272,7 @@ router.put("/contractor/:mainid/:objectid", async (req, res, next) => {
 
     if (notification) {
       res.status(200).json({ message });
+      emitRealTimeNotifications()
     } else {
       res.status(404).json({ message: "Notification not found" });
     }
