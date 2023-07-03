@@ -1,10 +1,12 @@
+// const http = require("http");
+const { Server } = require("socket.io");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const port = process.env.PORT || 5500;
-// const http = require("http");
-const { Server } = require("socket.io");
+const expressPort = process.env.EXPRESS_PORT || 5500;
+const socketioPort = process.env.SOCKET_IO_PORT || 6500;
+
 //require routes
 
 const authRoute = require("./routes/Authentication/auth");
@@ -35,17 +37,14 @@ app.use(cors());
 
 // socket io init
 
-
 const io = new Server({
   cors: {
     origin: "*",
   },
 });
 
-
-
 io.on("connection", (socket) => {
-  console.log("someone has connected!")
+  console.log("someone has connected!");
 
   socket.on("disconnect", () => {
     console.log("someone has disconnected!");
@@ -53,8 +52,6 @@ io.on("connection", (socket) => {
 });
 
 global.io = io;
-
-
 
 // mongo init
 
@@ -107,9 +104,9 @@ app.use((err, req, res, next) => {
 
 app.use("/", (req, res) => res.send("Hello World!"));
 
-app.listen(port, () => {
+app.listen(expressPort, () => {
   connect();
   console.log("Connected to Server");
 });
 
-io.listen(6500);
+io.listen(socketioPort);

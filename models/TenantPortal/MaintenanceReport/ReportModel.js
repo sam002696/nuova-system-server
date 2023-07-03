@@ -62,6 +62,9 @@ const ReportModelSchema = new mongoose.Schema(
     jobid: {
       type: String,
     },
+    perHourIncome: {
+      type: String,
+    },
     taskComplete: {
       type: Boolean,
       default: false,

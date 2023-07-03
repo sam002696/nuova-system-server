@@ -2,6 +2,9 @@ const Bidding = require("../../../models/ContractorPortal/ContractorBidding/Bidd
 const ContractorJob = require("../../../models/ContractorPortal/ContractorJob/ContractorJob");
 const Notification = require("../../../models/Notification/Notification");
 const Report = require("../../../models/TenantPortal/MaintenanceReport/ReportModel");
+const {
+  emitRealTimeNotifications,
+} = require("../../notification/emitRealTimeNotifications");
 
 const router = require("express").Router();
 

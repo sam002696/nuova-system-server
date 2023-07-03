@@ -3,12 +3,14 @@ const { sendMail } = require("../sendEmail");
 // send maintenance email to property manager
 const sendMaintenanceEmail = async (maintenanceInfo) => {
   const subject = "Maintenance Request";
-  const text = `There is a maintenance request.`;
+
+  // Add your logo URL here
+  const logoUrl = "https://i.ibb.co/vY3j7Wg/Nuova-Logo.png";
+
   const html = `
     <html>
       <head>
         <style>
-          /* Add your custom styles here */
           body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
@@ -17,23 +19,43 @@ const sendMaintenanceEmail = async (maintenanceInfo) => {
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #ffffff;
+            background-color: #f8f1e9;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
           }
           .header {
             text-align: center;
+            margin-bottom: 30px;
+          }
+          .logo-container {
             margin-bottom: 20px;
           }
           .title {
-            font-size: 24px;
+            font-size: 28px;
             color: #333333;
             margin-bottom: 10px;
           }
           .description {
             font-size: 16px;
-            color: #666666;
+            color: #555555;
             margin-bottom: 20px;
+          }
+          .info-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 5px;
+          }
+          .content {
+            font-size: 14px;
+            color: #555555;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+          }
+          .info-value {
+            margin-bottom: 10px;
           }
           .footer {
             text-align: center;
@@ -41,19 +63,62 @@ const sendMaintenanceEmail = async (maintenanceInfo) => {
             color: #999999;
             font-size: 12px;
           }
+          .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          .logo-image {
+            max-width: 200px;
+          }
+          .button-container {
+            text-align: center;
+            margin-top: 20px;
+          }
+          .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6e462a;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+          }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
+            <div class="logo-container">
+              <img class="logo-image" src="${logoUrl}" alt="Logo">
+            </div>
             <h1 class="title">Maintenance Request</h1>
-            <p class="description">There is a maintenance request for ${maintenanceInfo.issueName}.</p>
           </div>
           <div class="content">
-            <p>${maintenanceInfo.issueDesc}</p>
+            <h2 class="info-label">Issue Name:</h2>
+            <p class="info-value">${maintenanceInfo.issueName}</p>
+
+            <p class="info-label">Issue Description:</p>
+            <p class="info-value">${maintenanceInfo.issueDesc}</p>
+            
+            <p class="info-label">Property Name:</p>
+            <p class="info-value">${maintenanceInfo.propertyName}</p>
+            
+            <p class="info-label">Tenant Address:</p>
+            <p class="info-value">${maintenanceInfo.tenantAddress}</p>
+            
+            <p class="info-label">Email:</p>
+            <p class="info-value">${maintenanceInfo.email}</p>
+            
+            <p class="info-label">Phone Number:</p>
+            <p class="info-value">${maintenanceInfo.phoneNo}</p>
+            
+            <div class="button-container">
+              <button class="button">View Details</button>
+            </div>
           </div>
           <div class="footer">
-            <p>This email was sent by the Maintenance Request System.</p>
+            <p>This message was sent by the Maintenance Request System.</p>
           </div>
         </div>
       </body>
@@ -61,9 +126,13 @@ const sendMaintenanceEmail = async (maintenanceInfo) => {
   `;
 
   try {
-    const recipients = ["sadmansakib221@gmail.com", "prangansen634@gmail.com"];
+    const recipients = [
+      "sadmansakib221@gmail.com",
+      "prangansen634@gmail.com",
+      "zakhussain_29@hotmail.com",
+    ];
     const emailPromises = recipients.map((recipient) =>
-      sendMail(recipient, subject, text, html)
+      sendMail(recipient, subject, null, html)
     );
 
     const emailResults = await Promise.all(emailPromises);

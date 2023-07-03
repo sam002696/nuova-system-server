@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const User = require("../../models/AdminPortal/CreateUser/User");
 const Notification = require("../../models/Notification/Notification");
-const { emitRealTimeNotifications } = require("../notification/emitRealTimeNotifications");
+const {
+  emitRealTimeNotifications,
+} = require("../notification/emitRealTimeNotifications");
 
 //register
 router.post("/register", async (req, res, next) => {
@@ -23,7 +25,7 @@ router.post("/register", async (req, res, next) => {
       },
       { upsert: true }
     );
-    emitRealTimeNotifications()
+    emitRealTimeNotifications();
     res.status(200).json(user);
   } catch (err) {
     next(err);
@@ -33,6 +35,7 @@ router.post("/register", async (req, res, next) => {
 //login
 
 router.post("/login", async (req, res) => {
+  console.log(req.body);
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
