@@ -1,11 +1,12 @@
 // const http = require("http");
-const { Server } = require("socket.io");
+// const { Server } = require("socket.io");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const expressPort = process.env.EXPRESS_PORT || 5500;
-const socketioPort = process.env.SOCKET_IO_PORT || 6500;
+const port = process.env.PORT || 5500;
+
+// const socketioPort = process.env.SOCKET_IO_PORT || 6500;
 
 //require routes
 
@@ -34,9 +35,17 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 
+const http = require("http").createServer(app);
+
 // socket io init
 
-const io = new Server({
+// const io = new Server({
+//   cors: {
+//     origin: "*",
+//   },
+// });
+
+const io = require("socket.io")(http, {
   cors: {
     origin: "*",
   },
@@ -103,9 +112,14 @@ app.use((err, req, res, next) => {
 
 app.use("/", (req, res) => res.send("Hello World!"));
 
-app.listen(expressPort, () => {
-  connect();
-  console.log("Connected to Server");
-});
+// app.listen(expressPort, () => {
+//   connect();
+//   console.log("Connected to Server");
+// });
 
-io.listen(socketioPort);
+// io.listen(socketioPort);
+
+http.listen(port, () => {
+  connect();
+  console.log(`Server is running on port ${port}`);
+});
