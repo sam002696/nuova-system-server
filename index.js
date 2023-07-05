@@ -26,7 +26,6 @@ const inventoryRoute = require("./routes/propertyManagementPortal/propertyReview
 const inspectionReportRoute = require("./routes/propertyManagementPortal/propertyReview/inspectionReport/inspectionReport");
 const propertyFactFindRoute = require("./routes/propertyManagementPortal/propertyFactFind/propertyFactFind");
 const notificationRoute = require("./routes/notification/notification");
-const Notification = require("./models/Notification/Notification");
 // const sendMail = require("./utils/sendEmail");
 
 // express app initialization
@@ -50,8 +49,6 @@ io.on("connection", (socket) => {
     console.log("someone has disconnected!");
   });
 });
-
-io.use(cors());
 
 global.io = io;
 
