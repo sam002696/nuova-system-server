@@ -15,7 +15,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-
 router.put("/pm/:mainid/:objectid", async (req, res, next) => {
   const { mainid } = req.params;
   const { objectid } = req.params;
@@ -89,10 +88,10 @@ router.put("/pm/:mainid/:objectid", async (req, res, next) => {
       { $set: { [`${updateField}.$[element].isViewed`]: true } },
       { arrayFilters: [{ "element._id": objectid }] }
     );
-   
+
     if (notification) {
       res.status(200).json({ message });
-      emitRealTimeNotifications()
+      emitRealTimeNotifications();
     } else {
       res.status(404).json({ message: "Notification not found" });
     }
@@ -154,7 +153,7 @@ router.put("/landlord/:mainid/:objectid", async (req, res, next) => {
 
     if (notification) {
       res.status(200).json({ message });
-      emitRealTimeNotifications()
+      emitRealTimeNotifications();
     } else {
       res.status(404).json({ message: "Notification not found" });
     }
@@ -197,7 +196,7 @@ router.put("/tenant/:mainid/:objectid", async (req, res, next) => {
         updateField = "TenantMaintenance.jobIncomplete";
         message = "jobIncomplete field updated";
         break;
-      
+
       // Add more cases for other fields if needed
 
       default:
@@ -213,7 +212,7 @@ router.put("/tenant/:mainid/:objectid", async (req, res, next) => {
 
     if (notification) {
       res.status(200).json({ message });
-      emitRealTimeNotifications()
+      emitRealTimeNotifications();
     } else {
       res.status(404).json({ message: "Notification not found" });
     }
@@ -256,7 +255,7 @@ router.put("/contractor/:mainid/:objectid", async (req, res, next) => {
         updateField = "Jobs.DeclinedJobs";
         message = "jobIncomplete field updated";
         break;
-      
+
       // Add more cases for other fields if needed
 
       default:
@@ -272,7 +271,7 @@ router.put("/contractor/:mainid/:objectid", async (req, res, next) => {
 
     if (notification) {
       res.status(200).json({ message });
-      emitRealTimeNotifications()
+      emitRealTimeNotifications();
     } else {
       res.status(404).json({ message: "Notification not found" });
     }
@@ -281,6 +280,5 @@ router.put("/contractor/:mainid/:objectid", async (req, res, next) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
 
 module.exports = router;

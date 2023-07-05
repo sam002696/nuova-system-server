@@ -8,6 +8,20 @@ const port = process.env.PORT || 5500;
 
 // const socketioPort = process.env.SOCKET_IO_PORT || 6500;
 
+// express app initialization
+const app = express();
+dotenv.config();
+app.use(express.json());
+app.use(cors());
+
+const http = require("http").createServer(app);
+
+const io = require("socket.io")(http, {
+  cors: {
+    origin: "*",
+  },
+});
+
 //require routes
 
 const authRoute = require("./routes/Authentication/auth");
@@ -27,15 +41,10 @@ const inventoryRoute = require("./routes/propertyManagementPortal/propertyReview
 const inspectionReportRoute = require("./routes/propertyManagementPortal/propertyReview/inspectionReport/inspectionReport");
 const propertyFactFindRoute = require("./routes/propertyManagementPortal/propertyFactFind/propertyFactFind");
 const notificationRoute = require("./routes/notification/notification");
+const {
+  emitRealTimeNotifications,
+} = require("./routes/notification/emitRealTimeNotifications");
 // const sendMail = require("./utils/sendEmail");
-
-// express app initialization
-const app = express();
-dotenv.config();
-app.use(express.json());
-app.use(cors());
-
-const http = require("http").createServer(app);
 
 // socket io init
 
@@ -45,15 +54,8 @@ const http = require("http").createServer(app);
 //   },
 // });
 
-const io = require("socket.io")(http, {
-  cors: {
-    origin: "*",
-  },
-});
-
 io.on("connection", (socket) => {
-  console.log("someone has connected!");
-
+  console.log("User has connected: " + socket.id);
   socket.on("disconnect", () => {
     console.log("someone has disconnected!");
   });
