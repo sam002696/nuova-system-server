@@ -51,6 +51,8 @@ io.on("connection", (socket) => {
   });
 });
 
+io.use(cors());
+
 global.io = io;
 
 // mongo init
