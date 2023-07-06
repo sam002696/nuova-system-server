@@ -1,12 +1,8 @@
-// const http = require("http");
-// const { Server } = require("socket.io");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const port = process.env.PORT || 5500;
-
-// const socketioPort = process.env.SOCKET_IO_PORT || 6500;
 
 // express app initialization
 const app = express();
@@ -14,6 +10,7 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 
+// socket io initialization
 const http = require("http").createServer(app);
 
 const io = require("socket.io")(http, {
@@ -41,18 +38,6 @@ const inventoryRoute = require("./routes/propertyManagementPortal/propertyReview
 const inspectionReportRoute = require("./routes/propertyManagementPortal/propertyReview/inspectionReport/inspectionReport");
 const propertyFactFindRoute = require("./routes/propertyManagementPortal/propertyFactFind/propertyFactFind");
 const notificationRoute = require("./routes/notification/notification");
-const {
-  emitRealTimeNotifications,
-} = require("./routes/notification/emitRealTimeNotifications");
-// const sendMail = require("./utils/sendEmail");
-
-// socket io init
-
-// const io = new Server({
-//   cors: {
-//     origin: "*",
-//   },
-// });
 
 io.on("connection", (socket) => {
   console.log("User has connected: " + socket.id);
@@ -60,6 +45,8 @@ io.on("connection", (socket) => {
     console.log("someone has disconnected!");
   });
 });
+
+// globally setting io
 
 global.io = io;
 
@@ -114,12 +101,7 @@ app.use((err, req, res, next) => {
 
 app.use("/", (req, res) => res.send("Hello World!"));
 
-// app.listen(expressPort, () => {
-//   connect();
-//   console.log("Connected to Server");
-// });
-
-// io.listen(socketioPort);
+// port listening
 
 http.listen(port, () => {
   connect();
