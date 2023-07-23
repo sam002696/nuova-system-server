@@ -126,11 +126,7 @@ const sendMaintenanceEmail = async (maintenanceInfo) => {
   `;
 
   try {
-    const recipients = [
-      "sadmansakib221@gmail.com",
-      "prangansen634@gmail.com",
-      "zakhussain_29@hotmail.com",
-    ];
+    const recipients = ["sadmansakib221@gmail.com", "prangansen634@gmail.com"];
     const emailPromises = recipients.map((recipient) =>
       sendMail(recipient, subject, null, html)
     );

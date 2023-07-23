@@ -16,7 +16,12 @@ const router = require("express").Router();
 router.put("/:reportid", async (req, res, next) => {
   const date = new Date();
   const reportid = req.params.reportid;
-  const newJob = new ContractorJob(req.body);
+
+  const newJobData = req.body;
+  newJobData.createdAt = date;
+  delete newJobData.updatedAt;
+
+  const newJob = new ContractorJob(newJobData);
   try {
     const reportInfo = await ReportModel.findByIdAndUpdate(
       reportid,
