@@ -90,7 +90,7 @@ const sendMaintenanceEmail = async (maintenanceInfo) => {
         <div class="container">
           <div class="header">
             <div class="logo-container">
-              <img class="logo-image" src="${logoUrl}" alt="Logo">
+              <img class="logo-image" src=${logoUrl} alt="Logo">
             </div>
             <h1 class="title">Maintenance Request</h1>
           </div>
@@ -141,7 +141,7 @@ const sendMaintenanceEmail = async (maintenanceInfo) => {
 const sendMaintenanceAcceptanceToTenantEmail = async (maintenanceInfo) => {
   const subject = "Maintenance Request Accepted";
   const text = `Your maintenance request has been accepted`;
-
+  const logoUrl = "https://i.ibb.co/vY3j7Wg/Nuova-Logo.png";
   const html = `
     <html>
       <head>
@@ -225,7 +225,7 @@ const sendMaintenanceAcceptanceToTenantEmail = async (maintenanceInfo) => {
         <div class="container">
           <div class="header">
             <div class="logo-container">
-              <img class="logo-image" src="${logoUrl}" alt="Logo">
+              <img class="logo-image" src=${logoUrl} alt="Logo">
             </div>
             <h1 class="title">Maintenance Request Acceptance</h1>
           </div>
@@ -275,7 +275,7 @@ const sendContractorAssignInfoToTenantEmail = async (
 ) => {
   const subject = "Contractor Assigned for Maintenance Request";
   const text = `A contractor has been assigned to your maintenance request`;
-
+  const logoUrl = "https://i.ibb.co/vY3j7Wg/Nuova-Logo.png";
   const html = `
   <html>
     <head>
@@ -359,7 +359,7 @@ const sendContractorAssignInfoToTenantEmail = async (
       <div class="container">
         <div class="header">
           <div class="logo-container">
-            <img class="logo-image" src="${logoUrl}" alt="Logo">
+            <img class="logo-image" src=${logoUrl} alt="Logo">
           </div>
           <h1 class="title">Information of Assigned Contractor</h1>
         </div>
@@ -406,14 +406,13 @@ const sendContractorAssignInfoToTenantEmail = async (
   }
 };
 
-
 const sendJobCompletionInfoToTenantEmail = async (
   maintenanceInfo,
   contractorInfo
 ) => {
   const subject = "Maintenance Task Completion";
   const text = "Your maintenance task has been completed";
-
+  const logoUrl = "https://i.ibb.co/vY3j7Wg/Nuova-Logo.png";
   const html = `
   <html>
     <head>
@@ -497,7 +496,7 @@ const sendJobCompletionInfoToTenantEmail = async (
       <div class="container">
         <div class="header">
           <div class="logo-container">
-            <img class="logo-image" src="${logoUrl}" alt="Logo">
+            <img class="logo-image" src=${logoUrl} alt="Logo">
           </div>
           <h1 class="title">Your Maintenance Task has been Completed</h1>
         </div>
@@ -547,14 +546,13 @@ const sendJobCompletionInfoToTenantEmail = async (
   }
 };
 
-
 const sendJobInCompletionInfoToTenantEmail = async (
   maintenanceInfo,
   contractorInfo
 ) => {
   const subject = "Maintenance Task Remains Incomplete";
   const text = "There is an issue with your maintenance job";
-
+  const logoUrl = "https://i.ibb.co/vY3j7Wg/Nuova-Logo.png";
   const html = `
   <html>
     <head>
@@ -638,7 +636,7 @@ const sendJobInCompletionInfoToTenantEmail = async (
       <div class="container">
         <div class="header">
           <div class="logo-container">
-            <img class="logo-image" src="${logoUrl}" alt="Logo">
+            <img class="logo-image" src=${logoUrl} alt="Logo">
           </div>
           <h1 class="title">Issue with your Maintenance Request : Task Incomplete</h1>
         </div>
@@ -681,7 +679,7 @@ const sendJobInCompletionInfoToTenantEmail = async (
 const sendJobInfoToAllContractorEmail = async (maintenanceInfo) => {
   const subject = "New Job Posting On Nuova Property Portal";
   const text = "There is a new job";
-
+  const logoUrl = "https://i.ibb.co/vY3j7Wg/Nuova-Logo.png";
   const html = `
   <html>
     <head>
@@ -765,7 +763,7 @@ const sendJobInfoToAllContractorEmail = async (maintenanceInfo) => {
       <div class="container">
         <div class="header">
           <div class="logo-container">
-            <img class="logo-image" src="${logoUrl}" alt="Logo">
+            <img class="logo-image" src=${logoUrl} alt="Logo">
           </div>
           <h1 class="title">Your Job Alert for Nuova Property Maintenance Issue</h1>
         </div>
@@ -815,7 +813,7 @@ const sendCurrentJobInfoToSingleContractorEmail = async (
 ) => {
   const subject = "New Current Job Information";
   const text = "New Current Job Information";
-
+  const logoUrl = "https://i.ibb.co/vY3j7Wg/Nuova-Logo.png";
   const html = `
   <html>
     <head>
@@ -899,7 +897,7 @@ const sendCurrentJobInfoToSingleContractorEmail = async (
       <div class="container">
         <div class="header">
           <div class="logo-container">
-            <img class="logo-image" src="${logoUrl}" alt="Logo">
+            <img class="logo-image" src=${logoUrl} alt="Logo">
           </div>
           <h1 class="title">Your Bidding for Nuova Property Maintenance Task has Accepted</h1>
           <h2 class="info-label">See Details in Current Job Section </h2>
@@ -918,16 +916,16 @@ const sendCurrentJobInfoToSingleContractorEmail = async (
           <p class="info-value">${maintenanceInfo.tenantAddress}</p>
 
           <p class="info-label">Contractor Name:</p>
-          <p class="info-value">${contractorInfo.contractorName}</p>
+          <p class="info-value">${biddingInfo.contractorName}</p>
           
           <p class="info-label">Contractor Email:</p>
-          <p class="info-value">${contractorInfo.contractorEmail}</p>
+          <p class="info-value">${biddingInfo.contractorEmail}</p>
 
           <p class="info-label">Contractor Phone:</p>
-          <p class="info-value">${contractorInfo.contractorPhone}</p>
+          <p class="info-value">${biddingInfo.contractorPhone}</p>
 
           <p class="info-label">Contractor Payment Amount :</p>
-          <p class="info-value">${contractorInfo.biddingAmount} GBP</p>
+          <p class="info-value">${biddingInfo.BiddingAmount} GBP</p>
           
           <div class="button-container">
             <button class="button">View Details</button>
@@ -939,7 +937,7 @@ const sendCurrentJobInfoToSingleContractorEmail = async (
       </div>
     </body>
   </html>
-`
+`;
 
   try {
     const recipient = biddingInfo.contractorEmail;
@@ -956,8 +954,7 @@ const sendCompleteJobInfoToSingleContractorEmail = async (
 ) => {
   const subject = "Your Job Completion Information";
   const text = "Completed Maintenance Job Information";
-
-
+  const logoUrl = "https://i.ibb.co/vY3j7Wg/Nuova-Logo.png";
   const html = `
   <html>
     <head>
@@ -1041,7 +1038,7 @@ const sendCompleteJobInfoToSingleContractorEmail = async (
       <div class="container">
         <div class="header">
           <div class="logo-container">
-            <img class="logo-image" src="${logoUrl}" alt="Logo">
+            <img class="logo-image" src=${logoUrl} alt="Logo">
           </div>
           <h1 class="title">Your Current Job for Nuova Property Maintenance Task has Completed</h1>
           <h2 class="info-label">See Details in Complete Job Section </h2>
@@ -1060,16 +1057,16 @@ const sendCompleteJobInfoToSingleContractorEmail = async (
           <p class="info-value">${maintenanceInfo.tenantAddress}</p>
 
           <p class="info-label">Contractor Name:</p>
-          <p class="info-value">${contractorInfo.contractorName}</p>
+          <p class="info-value">${biddingInfo.contractorName}</p>
           
           <p class="info-label">Contractor Email:</p>
-          <p class="info-value">${contractorInfo.contractorEmail}</p>
+          <p class="info-value">${biddingInfo.contractorEmail}</p>
 
           <p class="info-label">Contractor Phone:</p>
-          <p class="info-value">${contractorInfo.contractorPhone}</p>
+          <p class="info-value">${biddingInfo.contractorPhone}</p>
 
           <p class="info-label">Contractor Payment Amount :</p>
-          <p class="info-value">${contractorInfo.biddingAmount} GBP</p>
+          <p class="info-value">${biddingInfo.biddingAmount} GBP</p>
           
           <div class="button-container">
             <button class="button">View Details</button>
@@ -1081,7 +1078,7 @@ const sendCompleteJobInfoToSingleContractorEmail = async (
       </div>
     </body>
   </html>
-`
+`;
 
   try {
     const recipient = biddingInfo.contractorEmail;
@@ -1098,7 +1095,7 @@ const sendIncompleteJobInfoToSingleContractorEmail = async (
 ) => {
   const subject = "Your Current Job has been marked as Incomplete";
   const text = `Incomplete Maintenance Job Information:`;
-
+  const logoUrl = "https://i.ibb.co/vY3j7Wg/Nuova-Logo.png";
   const html = `
   <html>
     <head>
@@ -1182,7 +1179,7 @@ const sendIncompleteJobInfoToSingleContractorEmail = async (
       <div class="container">
         <div class="header">
           <div class="logo-container">
-            <img class="logo-image" src="${logoUrl}" alt="Logo">
+            <img class="logo-image" src=${logoUrl} alt="Logo">
           </div>
           <h1 class="title">Your Current Job for Nuova Property Maintenance Task is Incomplete.</h1>
           <h2 class="info-label">See Details in Incomplete Job Section </h2>
@@ -1201,16 +1198,16 @@ const sendIncompleteJobInfoToSingleContractorEmail = async (
           <p class="info-value">${maintenanceInfo.tenantAddress}</p>
 
           <p class="info-label">Contractor Name:</p>
-          <p class="info-value">${contractorInfo.contractorName}</p>
+          <p class="info-value">${biddingInfo.contractorName}</p>
           
           <p class="info-label">Contractor Email:</p>
-          <p class="info-value">${contractorInfo.contractorEmail}</p>
+          <p class="info-value">${biddingInfo.contractorEmail}</p>
 
           <p class="info-label">Contractor Phone:</p>
-          <p class="info-value">${contractorInfo.contractorPhone}</p>
+          <p class="info-value">${biddingInfo.contractorPhone}</p>
 
           <p class="info-label">Contractor Payment Amount :</p>
-          <p class="info-value">${contractorInfo.biddingAmount} GBP</p>
+          <p class="info-value">${biddingInfo.biddingAmount} GBP</p>
           
           <div class="button-container">
             <button class="button">View Details</button>
@@ -1222,7 +1219,7 @@ const sendIncompleteJobInfoToSingleContractorEmail = async (
       </div>
     </body>
   </html>
-`
+`;
 
   try {
     const recipient = biddingInfo.contractorEmail;
@@ -1239,7 +1236,7 @@ const sendDeclinedJobInfoToSingleContractorEmail = async (
 ) => {
   const subject = "Declination for your applied Maintenance Job ";
   const text = `Declined Maintenance Job Information:`;
-
+  const logoUrl = "https://i.ibb.co/vY3j7Wg/Nuova-Logo.png";
   const html = `
   <html>
     <head>
@@ -1323,7 +1320,7 @@ const sendDeclinedJobInfoToSingleContractorEmail = async (
       <div class="container">
         <div class="header">
           <div class="logo-container">
-            <img class="logo-image" src="${logoUrl}" alt="Logo">
+            <img class="logo-image" src=${logoUrl} alt="Logo">
           </div>
           <h1 class="title">Your Application for Nuova Property Maintenance Task is Declined.</h1>
           <h2 class="info-label">See Details in Declined Job Section </h2>
@@ -1351,7 +1348,7 @@ const sendDeclinedJobInfoToSingleContractorEmail = async (
       </div>
     </body>
   </html>
-`
+`;
 
   try {
     const recipient = bididngInfo.contractorEmail;

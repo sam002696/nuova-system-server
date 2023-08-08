@@ -11,6 +11,15 @@ const ContractorJobSchema = new mongoose.Schema(
     email: {
       type: String,
     },
+    phoneNo: {
+      type: String,
+    },
+    chatusername: {
+      type: String,
+    },
+    username: {
+      type: String,
+    },
     requiredExperience: {
       type: String,
     },
