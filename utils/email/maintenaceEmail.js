@@ -523,7 +523,7 @@ const sendJobCompletionInfoToTenantEmail = async (
           <p class="info-value">${contractorInfo.contractorPhone}</p>
 
           <p class="info-label">Contractor Payment Amount :</p>
-          <p class="info-value">${contractorInfo.biddingAmount} GBP</p>
+          <p class="info-value">${contractorInfo.BiddingAmount} GBP</p>
           
           <div class="button-container">
             <button class="button">View Details</button>

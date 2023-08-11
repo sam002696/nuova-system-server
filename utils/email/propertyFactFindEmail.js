@@ -69,10 +69,9 @@ const sendPropertyFactFindEmail = async (factFindInfo) => {
         <p>You have received a new property fact find. Here are the details:</p>
       </div>
       <div class="details">
-        <p><strong>First Name:</strong> ${factFindInfo.ownershipDetails.firstName}</p>
-        <p><strong>Sur Name:</strong> ${factFindInfo.ownershipDetails.surname}</p>
+        <p><strong>First Name:</strong> ${factFindInfo.ownershipDetails.ownerOne.firstName}</p>
+        <p><strong>Sur Name:</strong> ${factFindInfo.ownershipDetails.ownerOne.surname}</p>
         <p><strong>Property Address:</strong> ${factFindInfo.property.propertyAddress}</p>
-        <p><strong>Move-in Date:</strong> ${factFindInfo.moveInDate}</p>
       </div>
       <div class="footer">
         <p>This email was sent by the Property Fact Find Enquiry System.</p>
