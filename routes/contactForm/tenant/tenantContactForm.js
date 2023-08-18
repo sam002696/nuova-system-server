@@ -12,10 +12,19 @@ router.post("/", async (req, res, next) => {
     const savedTenantContactForm = await newTenantContactForm.save();
 
     res.status(200).json(savedTenantContactForm);
+    sendTenantContactFormEmail(savedTenantContactForm);
   } catch (err) {
     next(err);
   }
-  sendTenantContactFormEmail(newTenantContactForm);
+});
+
+router.get("/", async (req, res, next) => {
+  try {
+    const tenantContactForm = await TenantContactForm.find({});
+    res.status(200).json(tenantContactForm);
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

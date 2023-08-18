@@ -39,6 +39,7 @@ const inspectionReportRoute = require("./routes/propertyManagementPortal/propert
 const propertyFactFindRoute = require("./routes/propertyManagementPortal/propertyFactFind/propertyFactFind");
 const notificationRoute = require("./routes/notification/notification");
 const tenantContactFormRoute = require("./routes/contactForm/tenant/tenantContactForm");
+const landlordContactFormRoute = require("./routes/contactForm/landlord/landlordContactForm");
 
 io.on("connection", (socket) => {
   console.log("User has connected: " + socket.id);
@@ -89,6 +90,7 @@ app.use("/api/biddings", biddingRoute);
 app.use("/api/taskDocuments", taskDocumentsRoute);
 app.use("/api/notifications", notificationRoute);
 app.use("/api/tenantContactForm", tenantContactFormRoute);
+app.use("/api/landlordContactForm", landlordContactFormRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
