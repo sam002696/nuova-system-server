@@ -7,13 +7,16 @@ const {
   sendTenantAddInfoToPropertyManager,
   sendTenantAddInfoToLandlord,
 } = require("../../../../utils/email/tenantAddEmail");
-const { emitRealTimeNotifications } = require("../../../notification/emitRealTimeNotifications");
+const {
+  emitRealTimeNotifications,
+} = require("../../../notification/emitRealTimeNotifications");
 
 //CREATE
 router.post("/upload/:propertyid", async (req, res, next) => {
   const propertyId = req.params.propertyid;
+  const { tenantId } = req.body.tenantPersonalInfo;
   const tenantUploads = new tenantUpload(req.body);
-
+  tenantUploads._id = tenantId;
   try {
     const savedtenantUploads = await tenantUploads.save();
     try {
@@ -56,7 +59,7 @@ router.post("/upload/:propertyid", async (req, res, next) => {
       if (savedtenantUploads && propertyInfo) {
         sendTenantAddInfoToLandlord(savedtenantUploads, propertyInfo);
       }
-      emitRealTimeNotifications()
+      emitRealTimeNotifications();
     } catch (err) {
       next(err);
     }
@@ -67,12 +70,18 @@ router.post("/upload/:propertyid", async (req, res, next) => {
 });
 
 //update
-router.put("/update/:tenantdetailsid", async (req, res, next) => {
-  const tenantDetailId = req.params.tenantdetailsid;
+router.put("/update/:tenantid", async (req, res, next) => {
+  const updatedStatus = req.query.tenantStatus;
+  const tenantDetailId = req.params.tenantid;
+  console.log(updatedStatus);
   try {
-    await tenantUpload.findByIdAndUpdate(tenantDetailId, {
-      $set: req.body,
-    });
+    await tenantUpload.findByIdAndUpdate(
+      tenantDetailId,
+      {
+        $set: { status: updatedStatus },
+      },
+      { new: true }
+    );
     res.status(200).json("tenant details has been updated.");
   } catch (err) {
     next(err);
@@ -91,10 +100,16 @@ router.delete("/:id/:propertyid", async (req, res, next) => {
     } catch (err) {
       res.status(403).json(err);
     }
-    res.status(200).json("tenant details has been deleted.");
+    res
+      .status(200)
+      .json(
+        "tenant details has been deleted both from property and tenant upload schema"
+      );
   } catch (err) {
     next(err);
   }
 });
+
+// change the tenant status being assigned to a property
 
 module.exports = router;

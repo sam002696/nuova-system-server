@@ -4,6 +4,9 @@ const Notification = require("../../../../models/Notification/Notification");
 const Property = require("../../../../models/PropertyManagementPortal/AddProperty/Property");
 const CertificateUpload = require("../../../../models/PropertyManagementPortal/PropertyReview/Certificates&Documents/CertificateUpload");
 const createError = require("../../../../utils/error");
+const {
+  emitRealTimeNotifications,
+} = require("../../../notification/emitRealTimeNotifications");
 
 //post certificate to a single property
 
@@ -34,7 +37,7 @@ router.post("/upload/:singlepropertyid", async (req, res, next) => {
         },
         { upsert: true }
       );
-      emitRealTimeNotifications()
+      emitRealTimeNotifications();
     } catch (err) {
       // return next(createError(403, "wrong property id"));
       next(err);
@@ -86,5 +89,27 @@ router.put("/:certificateid", async (req, res, next) => {
 //     next(err);
 //   }
 // });
+
+// delete
+router.delete("/:id/:propertyid", async (req, res, next) => {
+  const certificateId = req.params.propertyid;
+  try {
+    await CertificateUpload.findByIdAndDelete(req.params.id);
+    try {
+      await Property.findByIdAndUpdate(certificateId, {
+        $pull: { certificatesDocuments: req.params.id },
+      });
+    } catch (err) {
+      res.status(403).json(err);
+    }
+    res
+      .status(200)
+      .json(
+        "certificate details has been deleted both from property and certificate upload schema"
+      );
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;

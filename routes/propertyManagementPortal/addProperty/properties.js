@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const Notification = require("../../../models/Notification/Notification");
 const Property = require("../../../models/PropertyManagementPortal/AddProperty/Property");
+const CertificateUpload = require("../../../models/PropertyManagementPortal/PropertyReview/Certificates&Documents/CertificateUpload");
+const InspectionReport = require("../../../models/PropertyManagementPortal/PropertyReview/InspectionReport/InspectionReport");
+const Inventory = require("../../../models/PropertyManagementPortal/PropertyReview/Inventory/Inventory");
 const TenantUpload = require("../../../models/PropertyManagementPortal/PropertyReview/TenantUpload/TenantUpload");
 const {
   sendPropertyAddToEveryPropertyManagerEmail,
@@ -183,6 +186,37 @@ router.put("/:id", async (req, res, next) => {
     res.status(200).json(updatedProperty);
   } catch (err) {
     next(err);
+  }
+});
+
+// delete a single property and all of it's relevant documents from other schema
+
+router.delete("/:propertyid", async (req, res, next) => {
+  const propertyId = req.params.propertyid;
+  try {
+    const property = await Property.findById(propertyId);
+
+    if (!property) {
+      console.log("Property not found");
+      return;
+    }
+
+    // deleting refs in other models
+    await TenantUpload.deleteMany({ _id: { $in: property.tenantDetails } });
+    await CertificateUpload.deleteMany({
+      _id: { $in: property.certificatesDocuments },
+    });
+    await Inventory.deleteMany({ _id: { $in: property.inventory } });
+    await InspectionReport.deleteMany({
+      _id: { $in: property.inspectionReport },
+    });
+
+    // deleteing the main property model
+    await Property.deleteOne({ _id: propertyId });
+
+    res.status(200).json("Property and references deleted successfully");
+  } catch (error) {
+    next(error);
   }
 });
 
