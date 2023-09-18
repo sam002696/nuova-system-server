@@ -70,10 +70,10 @@ const TenantUploadSchema = new mongoose.Schema(
         type: Number,
       },
       leaseStartDate: {
-        type: Date,
+        type: String,
       },
       leaseEndDate: {
-        type: Date,
+        type: String,
       },
       postCode: {
         type: String,

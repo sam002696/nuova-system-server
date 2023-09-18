@@ -69,11 +69,10 @@ router.post("/upload/:propertyid", async (req, res, next) => {
   }
 });
 
-//update
+//change the tenant status being assigned to a property
 router.put("/update/:tenantid", async (req, res, next) => {
   const updatedStatus = req.query.tenantStatus;
   const tenantDetailId = req.params.tenantid;
-  console.log(updatedStatus);
   try {
     await tenantUpload.findByIdAndUpdate(
       tenantDetailId,
@@ -82,7 +81,7 @@ router.put("/update/:tenantid", async (req, res, next) => {
       },
       { new: true }
     );
-    res.status(200).json("tenant details has been updated.");
+    res.status(200).json("tenant status has been updated.");
   } catch (err) {
     next(err);
   }
@@ -110,6 +109,22 @@ router.delete("/:id/:propertyid", async (req, res, next) => {
   }
 });
 
-// change the tenant status being assigned to a property
+// update the tenant details
+
+router.put("/tenantDetails/:tenantid", async (req, res, next) => {
+  const tenantDetailId = req.params.tenantid;
+  try {
+    const updatedTenant = await tenantUpload.findByIdAndUpdate(
+      tenantDetailId,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedTenant);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;
