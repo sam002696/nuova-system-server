@@ -220,4 +220,23 @@ router.delete("/:propertyid", async (req, res, next) => {
   }
 });
 
+// set the current status of the property
+
+router.put("/propertyStatus/:propertyid", async (req, res, next) => {
+  const propertyId = req.params.propertyid;
+  const status = req.query.status;
+  try {
+    const updatedStatus = await Property.findByIdAndUpdate(
+      propertyId,
+      {
+        $set: { status: status },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedStatus);
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

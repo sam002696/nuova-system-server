@@ -193,6 +193,9 @@ const PropertySchema = new mongoose.Schema(
       type: String,
       ref: "InspectionReport",
     },
+    status: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

@@ -106,6 +106,7 @@ const TenantUploadSchema = new mongoose.Schema(
 
     status: {
       type: String,
+      default: "Current Tenant",
     },
   },
   { timestamps: true }
