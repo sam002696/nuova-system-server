@@ -5,6 +5,9 @@ const ContractorJobSchema = new mongoose.Schema(
     issueName: {
       type: String,
     },
+    issueDesc: {
+      type: String,
+    },
     tenantAddress: {
       type: String,
     },

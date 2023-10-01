@@ -633,19 +633,19 @@ const PropertyFactFindSchema = new mongoose.Schema(
           type: String,
         },
       },
-      agent: {
-        nuovaAgent: {
-          fullName: {
-            type: String,
-          },
-          signature: {
-            type: String,
-          },
-          todaysDate: {
-            type: Date,
-          },
-        },
-      },
+      // agent: {
+      //   nuovaAgent: {
+      //     fullName: {
+      //       type: String,
+      //     },
+      //     signature: {
+      //       type: String,
+      //     },
+      //     todaysDate: {
+      //       type: Date,
+      //     },
+      //   },
+      // },
     },
   },
   { timestamps: true }
