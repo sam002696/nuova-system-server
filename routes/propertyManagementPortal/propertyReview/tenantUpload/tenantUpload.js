@@ -10,14 +10,25 @@ const {
 const {
   emitRealTimeNotifications,
 } = require("../../../notification/emitRealTimeNotifications");
+const User = require("../../../../models/AdminPortal/CreateUser/User");
+const TenantUpload = require("../../../../models/PropertyManagementPortal/PropertyReview/TenantUpload/TenantUpload");
 
 //CREATE
 router.post("/upload/:propertyid", async (req, res, next) => {
   const propertyId = req.params.propertyid;
-  const { tenantId } = req.body.tenantPersonalInfo;
-  const tenantUploads = new tenantUpload(req.body);
-  tenantUploads._id = tenantId;
+  const { email } = req.body.tenantPersonalInfo;
+
   try {
+    const userInfo = await User.findOne({
+      email: email,
+    });
+    const tenantUploads = new TenantUpload({
+      tenantPersonalInfo: req.body.tenantPersonalInfo,
+      tenantResidency: req.body.tenantResidency,
+      guarantorInfo: req.body.guarantorInfo,
+      userid: userInfo._id,
+      status: "Current Tenant",
+    });
     const savedtenantUploads = await tenantUploads.save();
     try {
       const propertyInfo = await property.findByIdAndUpdate(propertyId, {

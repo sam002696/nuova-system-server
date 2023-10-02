@@ -65,18 +65,22 @@ router.delete("/:id", async (req, res, next) => {
 
     // Check if the user has the role "tenant"
     if (user.role === "Tenant") {
-      const properties = await Property.find({ tenantDetails: userId });
+      const tenantUploads = await TenantUpload.find({ userid: userId });
+      for (const tenantUpload of tenantUploads) {
+        const properties = await Property.find({
+          tenantDetails: tenantUpload._id,
+        });
 
-      for (const property of properties) {
-        const tenantIndex = property.tenantDetails.indexOf(userId);
-        if (tenantIndex !== -1) {
-          property.tenantDetails.splice(tenantIndex, 1);
-          await property.save();
+        for (const property of properties) {
+          await Property.updateOne(
+            { _id: property._id },
+            { $pull: { tenantDetails: tenantUpload._id } }
+          );
         }
       }
 
       // delete from the tenant upload
-      await TenantUpload.deleteMany({ _id: userId });
+      await TenantUpload.deleteMany({ userid: userId });
     }
 
     // Delete the user

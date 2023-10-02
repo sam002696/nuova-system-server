@@ -104,6 +104,11 @@ const TenantUploadSchema = new mongoose.Schema(
       },
     },
 
+    userid: {
+      type: String,
+      ref: "User",
+    },
+
     status: {
       type: String,
       default: "Current Tenant",
