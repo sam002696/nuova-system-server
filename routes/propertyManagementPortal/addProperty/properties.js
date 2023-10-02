@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const User = require("../../../models/AdminPortal/CreateUser/User");
 const Notification = require("../../../models/Notification/Notification");
 const Property = require("../../../models/PropertyManagementPortal/AddProperty/Property");
 const CertificateUpload = require("../../../models/PropertyManagementPortal/PropertyReview/Certificates&Documents/CertificateUpload");
@@ -130,26 +131,61 @@ router.get("/certificates/:id", async (req, res, next) => {
 
 //find a single property based on user's email
 
-router.get("/tenantproperty/tenant", async (req, res, next) => {
-  const email = req.query.email;
-  console.log(email);
-  if (email) {
-    try {
-      const tenant = await TenantUpload.findOne({
-        "tenantPersonalInfo.email": email,
-      });
-      console.log(tenant);
-      try {
-        const property = await Property.findOne({ tenantDetails: tenant._id })
-          .populate("tenantDetails")
-          .populate("certificatesDocuments");
-        res.status(200).json(property);
-      } catch (err) {
-        next(err);
-      }
-    } catch (err) {
-      next(err);
+// router.get("/tenantproperty/tenant", async (req, res, next) => {
+//   const email = req.query.email;
+//   console.log(email);
+//   if (email) {
+//     try {
+//       const tenant = await TenantUpload.findOne({
+//         "tenantPersonalInfo.email": email,
+//       });
+//       console.log(tenant);
+//       try {
+//         const property = await Property.findOne({ tenantDetails: tenant._id })
+//           .populate("tenantDetails")
+//           .populate("certificatesDocuments");
+//         res.status(200).json(property);
+//       } catch (err) {
+//         next(err);
+//       }
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+// });
+
+//find a single property based on user's email
+
+router.get("/tenantproperty/tenant/:id", async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    console.log('userId', userId);
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json("User not found");
     }
+
+    // Check the user with same id from tenant uploads
+    if (userId) {
+      const tenants = await TenantUpload.find({ userid: userId });
+      console.log('tenants', tenants);
+      
+        const properties = [];
+        for (const tenant of tenants) {
+          const property = await Property.findOne({ tenantDetails: tenant._id })
+            .populate("tenantDetails")
+            .populate("certificatesDocuments");
+          properties.push(property);
+         
+        }
+       
+        res.status(200).json(properties);
+    } 
+
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
