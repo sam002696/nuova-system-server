@@ -154,38 +154,50 @@ router.get("/certificates/:id", async (req, res, next) => {
 //   }
 // });
 
-//find a single property based on user's email
+//find a single property based on user's id
 
 router.get("/tenantproperty/tenant/:id", async (req, res, next) => {
   try {
+    const status = req.query.status;
     const userId = req.params.id;
-    console.log('userId', userId);
+    console.log("userId", userId);
 
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json("User not found");
+      return res.status(404).json({ error: "User not found" });
     }
 
-    // Check the user with same id from tenant uploads
-    if (userId) {
-      const tenants = await TenantUpload.find({ userid: userId });
-      console.log('tenants', tenants);
-      
-        const properties = [];
-        for (const tenant of tenants) {
-          const property = await Property.findOne({ tenantDetails: tenant._id })
-            .populate("tenantDetails")
-            .populate("certificatesDocuments");
-          properties.push(property);
-         
-        }
-       
-        res.status(200).json(properties);
-    } 
+    // Check the user with the same id from tenant uploads
+    if (userId && status) {
+      const tenants = await TenantUpload.find({
+        userid: userId,
+        status: status,
+      });
+      console.log("tenants", tenants);
 
+      const properties = [];
+      for (const tenant of tenants) {
+        const property = await Property.findOne({ tenantDetails: tenant._id })
+          .populate("tenantDetails")
+          .populate("certificatesDocuments");
+        if (property) {
+          properties.push(property);
+        }
+      }
+
+      if (properties.length === 0) {
+        return res.status(200).json({}); // Return an empty object when properties array is empty
+      } else {
+        const lastProperty = properties[properties.length - 1];
+        return res.status(200).json(lastProperty); // Return the last object when properties array has elements
+      }
+    } else {
+      return res.status(400).json({ error: "Invalid request parameters" });
+    }
   } catch (err) {
-    res.status(500).json(err);
+    console.error(err);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 
